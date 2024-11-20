@@ -1,0 +1,89 @@
+extends ../layout
+
+block content
+    .container
+        .row
+            .col-lg-6
+                img(src=snowboard.imageUrl alt=snowboard.model style='width: 100%;')
+            .col-lg-6
+                .card
+                    .card-body
+                        h5.card-title Име
+                        p.card-text= snowboard.model
+                        h5.card-title Материал
+                        p.card-text= snowboard.material
+                        h5.card-title Дължина
+                        p.card-text= snowboard.length
+                        h5.card-title ID
+                        p.card-text= snowboard.id
+                        .button-container
+                            if user
+                                if isFavorite
+                                    button.btn.btn-outline-primary(onclick=`toggleFavorite(${snowboard.id}, this)`) Премахни от любими
+                                else
+                                    button.btn.btn-primary(onclick=`toggleFavorite(${snowboard.id}, this)`) Добави в любими
+                                if user.role == 'admin'
+                                    a.btn.btn-warning(href='/snowboards/' + snowboard.id + '/edit') Промени
+                            a.btn.btn-secondary(href='/snowboards') Назад
+                            // Add to Cart Button
+                            button.btn.btn-success(onclick=`addToCart(${snowboard.id}, "${snowboard.model}")`) Добави в количка
+    script. 
+        async function toggleFavorite(snowboardId, button) {
+            try {
+                const response = await fetch(`/snowboards/${snowboardId}/add-favorite`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.text();
+
+                if (response.ok){
+                    if (result.includes("added")) {
+                        button.className = "btn btn-outline-primary";
+                        button.innerHTML = "Премахни от любими";
+                    } else {
+                        button.className = "btn btn-primary";
+                        button.innerHTML = "Добави в любими";
+                    }
+                } else {
+                    console.error('Request problem.');
+                }
+            } catch(error) {
+                console.error(error);
+            }
+        }
+
+        // JavaScript function to add item to cart
+        function addToCart(productId, productName) {
+            // Get current cart from session storage or create an empty array if not found
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            
+            // Check if the product is already in the cart
+            const existingProduct = cart.find(item => item.productId === productId);
+            if (existingProduct) {
+                existingProduct.quantity += 1; // Increase quantity if already in cart
+            } else {
+                cart.push({ productId, productName, quantity: 1 }); // Add new product to cart
+            }
+            
+            // Save the updated cart back to session storage
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Optionally, alert the user
+            alert(`${productName} е добавен в количката`);
+            
+            // Update cart count in navbar
+            updateCartCount();
+        }
+
+        // Update the cart count in the navbar
+        function updateCartCount() {
+            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', updateCartCount);

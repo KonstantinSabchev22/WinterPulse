@@ -1,0 +1,59 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+  body
+    nav.navbar.navbar-expand-lg.bg-body-tertiary
+      .container-fluid
+        a.navbar-brand(href='#')
+          img(width='30' height='30' src='/images/compass logo.png')
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            li.nav-item
+              a.nav-link.active(aria-current='page' href='/') Начало
+            if user
+              if user.role == 'admin'
+                li.nav-item
+                  a.nav-link(href='/snowboards/new') Добави нов Модел
+            li.nav-item
+              a.nav-link(href='/snowboards') Всички сноуборди
+          form.d-flex(action='/snowboards' method='GET' role='search')
+            input.form-control.me-2(name='snowboardFilter' type='search' snowboardholder='сноуборд' aria-label='Search')
+            button.btn.btn-outline-success(type='submit') Търси
+          ul.nav.navbar-nav.navbar-right
+            // Cart icon with counter badge
+            li.nav-item
+              a.nav-link(href='/cart')
+                i.fas.fa-shopping-cart
+                span#cart-count.badge.bg-danger.ms-1 0 // initial cart count
+            if !user
+              li.nav-item
+                a.nav-link(href='/users/register')
+                  i.fas.fa-user.link-icon
+                  span Регистрация
+              li.nav-item
+                a.nav-link(href='/users/login')
+                  i.fas.fa-sign-in-alt.link-icon
+                  span Влизане
+            else 
+              li.nav-item
+                a.nav-link(href='/users/logout')
+                  i.fas.fa-sign-in-alt.link-icon
+                  span Изход
+    .main-content
+      block content
+    script(src="/bootstrap/js/bootstrap.bundle.min.js")
+    script.
+      // Function to update cart count in navbar
+      function updateCartCount() {
+          const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+          const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+          document.getElementById('cart-count').textContent = cartCount;
+      }
+      
+      // Initialize cart count on page load
+      document.addEventListener('DOMContentLoaded', updateCartCount);

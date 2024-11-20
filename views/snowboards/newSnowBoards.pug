@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+    form(action='/snowboards/new' method='POST') 
+        .form-group
+            label(for="name") Наименование
+            input.form-control(type="text" name="name")
+        .form-group
+            label(for="model") модел
+            input.form-control(type="text" name="model")
+        .form-group 
+            label(for="length") дължина
+            input.form-control(type="text" name="length")
+        .form-group 
+            label(for="material") Материал
+            input.form-control(type="text" name="material")  
+        button.btn.btn-primary(type="submit") Изпращане

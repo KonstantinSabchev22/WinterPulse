@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  .container.mt-5
+    .alert.alert-danger(role='alert')
+      h1 #{message} (#{status || 500})
+      if status == 404
+        p The page you are looking for could not be found.
+      else if status == 500
+        p Something went wrong on our end. Please try again later.
+      else
+        p An unexpected error occurred. Please check the request and try again.
+
+    // Display error details only if needed (currently hidden by showStack variable)
+    if false && showStack
+      h4 Error Details:
+      pre #{error.stack}
+
+    hr
+    p
+      a.btn.btn-primary(href='/') Go back to Home
+      if status == 401 || status == 403
+        a.btn.btn-secondary(href='/users/login') Log in
