@@ -13,3 +13,156 @@ body {
 a {
   color: #00B7FF;
 }
+
+/* General styling for cart page */
+/* Общи стилове */
+h1 {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-item {
+  border-radius: 10px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cart-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Стилове за изображенията */
+.cart-item-img {
+  max-height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-top: 20px;
+}
+
+.btn-danger {
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.btn-danger:hover {
+  background-color: #dc3545;
+  transform: scale(1.05);
+}
+
+.checkout-button-container {
+  margin-top: 20px;
+}
+
+.btn-success {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.btn-success:hover {
+  background-color: #28a745;
+  transform: scale(1.05);
+}
+
+.addButton-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.tablecell-button {
+  margin: 0px 10px;
+}
+
+.btn-order-status-change {
+  margin: 0px 15px 0px 0px;
+}
+
+
+.hero {
+  position: relative;
+  background-image: url('/images/2.jpg'); /* Replace with your image URL */
+  background-size: cover;
+  background-position: center;
+  height: 80vh; /* Full height of the viewport */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  color: white;
+}
+
+.hero .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Black overlay with 50% transparency */
+  z-index: 1;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2; /* Place content above overlay */
+}
+
+h1.display-4 {
+  font-size: 3rem; /* Default size */
+}
+
+p.lead {
+  font-size: 1.25rem; /* Default size */
+}
+
+@media (max-width: 768px) {
+  h1.display-4 {
+    font-size: 2rem; /* Adjust heading size for smaller screens */
+  }
+
+  p.lead {
+    font-size: 1rem; /* Adjust subtitle size for smaller screens */
+  }
+
+  .btn-lg {
+    font-size: 1rem; /* Adjust button size for smaller screens */
+    padding: 0.5rem 1rem;
+  }
+}
+
+.content-wrapper {
+  margin-top: 50px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heading-title {
+  text-align: center;
+}
+
+#cart-count {
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  font-size: 0.75rem; /* Adjust size of the counter text */
+  min-width: 18px;
+  min-height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  padding: 0; /* No padding to keep it circular */
+}

@@ -1,7 +1,9 @@
-// routes/cart.js
+//routes/cart.js
 
 const express = require('express');
 const router = express.Router();
+const Order = require('../models/Order');
+const OrderItem = require('../models/OrderItem');
 
 // Route to render the cart page
 router.get('/', (req, res) => {
@@ -26,7 +28,7 @@ router.post('/checkout', async (req, res) => {
     // Save each item in the order
     const orderItems = cartItems.map(item => ({
       orderId: order.id,
-      productId: item.id,
+      snowboardId : item.productId,
       quantity: item.quantity,
       price: item.price,
     }));

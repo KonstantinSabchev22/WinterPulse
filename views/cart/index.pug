@@ -1,71 +1,91 @@
 extends ../layout
 
 block content
-    .container
-        h1 Your Cart
+  .container
+    h1.text-center.mb-5 Your Cart
 
-        #cart-items
-        // This section will display items if there are any in the cart
-        p No items in cart yet.
+    // Секция за артикули в количката
+    #cart-items.row
+      p.text-muted.text-center No items in cart yet.
 
-        .checkout-button-container
-        button.btn.btn-primary(onclick="checkout()") Checkout
+    .checkout-button-container.text-center.mt-4
+      button.btn.btn-success.btn-lg(onclick="checkout()") Checkout
 
-    script.
-        // Display items from sessionStorage in the cart
-        function displayCartItems() {
-            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            const cartItemsContainer = document.getElementById('cart-items');
-            
-            // Check if cart is empty
-            if (cart.length === 0) {
-            cartItemsContainer.innerHTML = "<p>No items in cart yet.</p>";
-            return;
-            }
-            
-            // Render the cart items dynamically
-            cartItemsContainer.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <p><strong>${item.name}</strong></p>
-                <p>Quantity: ${item.quantity}</p>
-                <p>Price: $${item.price}</p>
+  script.
+    // Display items from sessionStorage in the cart
+    function displayCartItems() {
+      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      const cartItemsContainer = document.getElementById('cart-items');
+      
+      // Check if cart is empty
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p class='text-muted text-center w-100'>No items in cart yet.</p>";
+        return;
+      }
+      
+      // Render the cart items dynamically with Remove button
+      cartItemsContainer.innerHTML = cart.map((item, index) => `
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <div class="card mb-3 shadow-sm cart-item" data-index="${index}">
+            <img src="${item.imageUrl}" class="card-img-top cart-item-img" alt="${item.productName}">
+            <div class="card-body">
+              <h5 class="card-title">${item.productName}</h5>
+              <p class="card-text">Quantity: ${item.quantity}</p>
+              <p class="card-text">Price: ${item.price} лв.</p>
+              <button class="btn btn-danger" onclick="removeFromCart(${index})">Remove</button>
             </div>
-            `).join('');
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Remove item from the cart
+    function removeFromCart(index) {
+      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      
+      // Remove the item at the specified index
+      cart.splice(index, 1);
+
+      // Update sessionStorage
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+
+      // Re-render the cart items
+      displayCartItems();
+    }
+
+    // Send cart data to the backend for checkout
+    async function checkout() {
+      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      
+      // Check if the cart is empty
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      try {
+        // Make a POST request to the backend with the cart data
+        const response = await fetch('/cart/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cartItems: cart })
+        });
+
+        const result = await response.json();
+
+        // Handle response
+        if (response.ok) {
+          alert(result.message);
+          sessionStorage.removeItem('cart'); // Clear the cart after checkout
+          window.location.href = '/'; // Redirect to the homepage or order confirmation page
+        } else {
+          alert(result.message); // Show the error message from the backend
         }
+      } catch (error) {
+        console.error('Checkout error:', error);
+        alert('There was an error processing your checkout.');
+      }
+    }
 
-        // Call displayCartItems when the page loads
-        document.addEventListener('DOMContentLoaded', displayCartItems);
-
-        // Send cart data to the backend for checkout
-        async function checkout() {
-            const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            
-            // Check if the cart is empty
-            if (cart.length === 0) {
-            alert("Your cart is empty.");
-            return;
-            }
-
-            try {
-            // Make a POST request to the backend with the cart data
-            const response = await fetch('/cart/checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ cartItems: cart })
-            });
-
-            const result = await response.json();
-
-            // Handle response
-            if (response.ok) {
-                alert(result.message);
-                sessionStorage.removeItem('cart'); // Clear the cart after checkout
-                window.location.href = '/'; // Redirect to the homepage or order confirmation page
-            } else {
-                alert(result.message); // Show the error message from the backend
-            }
-            } catch (error) {
-            console.error('Checkout error:', error);
-            alert('There was an error processing your checkout.');
-            }
-        }
+    // Call displayCartItems when the page loads
+    document.addEventListener('DOMContentLoaded', displayCartItems);

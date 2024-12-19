@@ -1,14 +1,16 @@
 extends ../layout
 
 block content
-  h1 Вскички сноуборди
-  .container
-    .row
+  .content-wrapper
+    h1.heading-title.text-center Вскички сноуборди
+    .container
+      .row
         each snowboard in snowboards
-            .col-lg-4.col-md-6.col-sm-12
-                .card(style='width: 18rem;')
-                    img.card-img-top(src=snowboard.imageUrl alt='...')
-                    .card-body
-                        h5.card-title= snowboard.name
-                        p.card-text= snowboard.model.substr(1, 100)
-                        a.btn.btn-primary(href=`/snowboards/${snowboard.id}`) Детайли
+          .col-xl-3.col-lg-4.col-md-12.col-sm-12
+            .card
+              img.card-img-top(src=snowboard.imageUrl alt='...')
+              .card-body
+                h5.card-title= snowboard.name
+                p.card-text= snowboard.model.substr(1, 100)
+                p.card-text= `Цена: ${snowboard.price.toFixed(2)} лв`
+                a.btn.btn-primary(href=`/snowboards/${snowboard.id}`) Детайли

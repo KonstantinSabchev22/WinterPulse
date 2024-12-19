@@ -38,31 +38,29 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-// Route to render the new snowboard form
-router.get('/new', function(req, res, next) {
-  res.render('snowboards/newSnowboards');
-});
-
 router.get('/new', middleware.ensureRole("admin"), function(req, res, next) {
   res.render('snowboards/newSnowboards');
 });
 
-router.post('/new', middleware.ensureRole("admin"), async function(req, res, next){
-  const name = req.body.name;
-  const model = req.body.model;
-  const length = req.body.length;
-  const material = req.body.material;
-  
+router.post('/new', middleware.ensureRole("admin"), async function(req, res, next) {
+  const { name, model, length, material, price, imageUrl } = req.body;
 
   const data = {
-    name: name,
-    model: model,
-    length: length,
-    material: material
+      name,
+      model,
+      length,
+      material,
+      price,
+      imageUrl // Add the imageUrl to the data
   };
 
-  await SnowBoard.create(data);
-  res.redirect('/snowboards');
+  try {
+    await SnowBoard.create(data);
+    res.redirect('/snowboards');
+  } catch (error) {
+    console.error('Error creating snowboard:', error);
+    res.status(500).send('Възникна грешка при добавяне на сноуборд');
+  }
 });
 
 
@@ -82,26 +80,26 @@ router.get('/:id/edit', middleware.ensureRole("admin"), async function(req, res,
 
 router.post('/:id/edit', middleware.ensureRole("admin"), async function(req, res, next) {
   try {
-    const snowboardId = req.params.id;
-    const { name, model, material, length, imageUrl } = req.body;
+      const snowboardId = req.params.id;
+      const { name, model, material, length, imageUrl, price } = req.body;
 
-    const snowboard = await SnowBoard.findByPk(snowboardId);
-    if (!snowboard) {
-      return res.status(404).send('Snowboard not found!');
-    }
+      const snowboard = await SnowBoard.findByPk(snowboardId);
+      if (!snowboard) {
+          return res.status(404).send('Snowboard not found!');
+      }
 
-    // Update the snowboard with new data
-    await snowboard.update({
-      name: name,
-      model: model,
-      material: material,
-      length: length,
-      imageUrl: imageUrl
-    });
+      await snowboard.update({
+          name,
+          model,
+          material,
+          length,
+          imageUrl,
+          price
+      });
 
-    res.redirect(`/snowboards/${snowboardId}`);
+      res.redirect(`/snowboards/${snowboardId}`);
   } catch (error) {
-    next(error);
+      next(error);
   }
 });
 

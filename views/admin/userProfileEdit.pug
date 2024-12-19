@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .container
+    h1.text-center.text-primary Edit Profile
+
+    form(method="POST", action="/admin/profile/edit")
+      .mb-3
+        label.form-label(for="firstName") First Name
+        input.form-control(type="text" id="firstName" name="firstName" value=user.firstName required)
+      .mb-3
+        label.form-label(for="lastName") Last Name
+        input.form-control(type="text" id="lastName" name="lastName" value=user.lastName required)
+      .mb-3
+        label.form-label(for="email") Email
+        input.form-control(type="email" id="email" name="email" value=user.email required)
+      button.btn.btn-success(type="submit") Save Changes
+      a.btn.btn-secondary.ms-2(href="/admin/profile") Cancel

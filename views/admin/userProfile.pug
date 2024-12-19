@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .container
+    h1.text-center.text-primary User Profile
+
+    .card.mt-4
+      .card-body
+        h5.card-title User Information
+        p
+          strong First Name: 
+          | #{user.firstName}
+        p
+          strong Last Name: 
+          | #{user.lastName}
+        p
+          strong Email: 
+          | #{user.email}
+        p
+          strong Created At: 
+          | #{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
+        p
+          strong Updated At: 
+          | #{user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : 'N/A'}
+
+    a.btn.btn-primary.mt-4(href="/admin/profile/edit") Edit Profile

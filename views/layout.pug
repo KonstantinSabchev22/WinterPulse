@@ -5,10 +5,10 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
   body
-    nav.navbar.navbar-expand-lg.bg-body-tertiary
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       .container-fluid
         a.navbar-brand(href='#')
-          img(width='30' height='30' src='/images/compass logo.png')
+          img(width='70' height='70' src='/images/Snowboard Logo white.png')
         button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
           span.navbar-toggler-icon
         #navbarSupportedContent.collapse.navbar-collapse
@@ -26,10 +26,10 @@ html
             button.btn.btn-outline-success(type='submit') Търси
           ul.nav.navbar-nav.navbar-right
             // Cart icon with counter badge
-            li.nav-item
+            li.nav-item.position-relative
               a.nav-link(href='/cart')
-                i.fas.fa-shopping-cart
-                span#cart-count.badge.bg-danger.ms-1 0 // initial cart count
+                img(src='/images/cart.png' alt='Cart' style='width:32px; height:32px;')
+                span#cart-count.badge.bg-danger.position-absolute 0 // initial cart count
             if !user
               li.nav-item
                 a.nav-link(href='/users/register')

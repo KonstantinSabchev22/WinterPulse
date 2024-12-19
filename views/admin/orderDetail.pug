@@ -1,0 +1,84 @@
+extends layout
+
+block content
+  .container
+    h1.text-center.text-primary Order Details
+
+    //- Order Information
+    .card.mb-4
+      .card-body
+        h5.card-title Order Information
+        p
+          strong Order ID: 
+          | #{order.id}
+        p
+          strong User: 
+          | #{order.user ? `${order.user.firstName} ${order.user.lastName}` : 'N/A'}
+        p
+          strong Status: 
+          span.badge(
+            class=(order.status === 'Pending' ? 'bg-warning' : order.status === 'Completed' ? 'bg-success' : 'bg-danger')
+          ) #{order.status}
+        p
+          strong Created At: 
+          | #{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}
+        p
+          strong Updated At: 
+          | #{order.updatedAt ? new Date(order.updatedAt).toLocaleDateString() : 'N/A'}
+
+    //- Order Items Table
+    table.table.table-bordered.mt-4
+      thead
+        tr
+          th Snowboard
+          th Model
+          th Quantity
+          th Price
+      tbody
+        each item in order.items
+          tr
+            td #{item.snowboard ? item.snowboard.name : 'N/A'}
+            td #{item.snowboard ? item.snowboard.model : 'N/A'}
+            td #{item.quantity}
+            td $#{item.price.toFixed(2)}
+
+    //- Action Buttons
+    .mt-4
+      button.btn.btn-primary.btn-order-status-change(
+        onclick=`updateOrderStatus(${order.id}, 'Pending')` 
+        disabled=(order.status === 'Pending')
+      ) Mark as Pending
+      button.btn.btn-success.btn-order-status-change(
+        onclick=`updateOrderStatus(${order.id}, 'Completed')` 
+        disabled=(order.status === 'Completed')
+      ) Mark as Completed
+      button.btn.btn-danger.btn-order-status-change(
+        onclick=`updateOrderStatus(${order.id}, 'Cancelled')` 
+        disabled=(order.status === 'Cancelled')
+      ) Cancel Order
+
+    //- Back Button
+    a.btn.btn-secondary.mt-3(href="/admin/orders") Back to Orders
+
+  script.
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const response = await fetch(`/admin/orders/${orderId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          alert('Error: ' + error.error);
+          return;
+        }
+
+        alert(`Order ${orderId} updated to ${status}`);
+        location.reload();
+      } catch (err) {
+        console.error(err);
+        alert('Failed to update order status');
+      }
+    }

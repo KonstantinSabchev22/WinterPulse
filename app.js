@@ -13,6 +13,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var snowboardsRouter = require('./routes/snowboards');
 var cartRouter = require('./routes/cart');
+var adminIndexRouter = require('./routes/admin/index');
+var adminSnowboardsRouter = require('./routes/admin/snowboards');
+var adminOrderManagementRouter = require('./routes/admin/orderManagement');
+var adminProfileRouter = require('./routes/admin/adminProfile');
 
 var app = express();
 
@@ -67,6 +71,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/snowboards', snowboardsRouter);
 app.use('/cart', cartRouter);
+app.use('/admin/index', adminIndexRouter);
+app.use('/admin/snowboards', adminSnowboardsRouter);
+app.use('/admin/orders', adminOrderManagementRouter);
+app.use('/admin/profile', adminProfileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

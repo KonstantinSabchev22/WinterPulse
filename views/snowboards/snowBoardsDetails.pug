@@ -16,6 +16,8 @@ block content
                         p.card-text= snowboard.length
                         h5.card-title ID
                         p.card-text= snowboard.id
+                        h5.card-title Цена
+                        p.card-text= `${snowboard.price.toFixed(2)} лв`
                         .button-container
                             if user
                                 if isFavorite
@@ -26,7 +28,7 @@ block content
                                     a.btn.btn-warning(href='/snowboards/' + snowboard.id + '/edit') Промени
                             a.btn.btn-secondary(href='/snowboards') Назад
                             // Add to Cart Button
-                            button.btn.btn-success(onclick=`addToCart(${snowboard.id}, "${snowboard.model}")`) Добави в количка
+                            button.btn.btn-success(onclick=`addToCart(${snowboard.id}, "${snowboard.model}", ${snowboard.price}, "${snowboard.imageUrl}")`) Добави в количка
     script. 
         async function toggleFavorite(snowboardId, button) {
             try {
@@ -56,7 +58,7 @@ block content
         }
 
         // JavaScript function to add item to cart
-        function addToCart(productId, productName) {
+        function addToCart(productId, productName, price, imageUrl) {
             // Get current cart from session storage or create an empty array if not found
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             
@@ -65,7 +67,7 @@ block content
             if (existingProduct) {
                 existingProduct.quantity += 1; // Increase quantity if already in cart
             } else {
-                cart.push({ productId, productName, quantity: 1 }); // Add new product to cart
+                cart.push({ productId, productName, price, imageUrl, quantity: 1 }); // Add new product to cart
             }
             
             // Save the updated cart back to session storage

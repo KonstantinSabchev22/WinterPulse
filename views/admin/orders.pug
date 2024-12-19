@@ -1,0 +1,73 @@
+extends layout
+
+block content
+  .container
+    h1.text-center.text-primary Orders Management
+
+    //- Filters
+    form(method="GET", action="/admin/orders", class="mb-4")
+      .row.g-3
+        .col-md-3
+          label.form-label(for="status") Status
+          select.form-select(name="status" id="status")
+            option(value="" selected) All
+            option(value="Pending") Pending
+            option(value="Completed") Completed
+            option(value="Cancelled") Cancelled
+        .col-md-3
+          label.form-label(for="startDate") Start Date
+          input.form-control(type="date" name="startDate" id="startDate" value=(filters.startDate || ''))
+        .col-md-3
+          label.form-label(for="endDate") End Date
+          input.form-control(type="date" name="endDate" id="endDate" value=(filters.endDate || ''))
+        .col-md-3.d-flex.align-items-end
+          button.btn.btn-primary(type="submit") Filter
+
+    //- Orders Table
+    table.table.table-dark.table-striped.mt-3
+      thead
+        tr
+          th ID
+          th User
+          th Created At
+          th Status
+          th Actions
+      tbody
+        each order in orders
+          tr
+            td #{order.id}
+            td #{order.user ? `${order.user.firstName} ${order.user.lastName}` : 'N/A'}
+            td #{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}
+            td 
+              span.badge(
+                class=(order.status === 'Pending' ? 'bg-warning' : order.status === 'Completed' ? 'bg-success' : 'bg-danger')
+              ) #{order.status}
+            td
+              a.btn.btn-sm.btn-secondary.tablecell-button(href=`/admin/orders/${order.id}`) Details
+              if order.status === 'Pending'
+                button.btn.btn-sm.btn-success.tablecell-button(onclick=`updateOrderStatus(${order.id}, 'Completed')`) Complete
+                button.btn.btn-sm.btn-danger.tablecell-button(onclick=`updateOrderStatus(${order.id}, 'Cancelled')`) Cancel
+
+  //- Include JavaScript
+  script.
+    async function updateOrderStatus(orderId, status) {
+      try {
+        const response = await fetch(`/admin/orders/${orderId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          alert('Error: ' + error.error);
+          return;
+        }
+
+        alert(`Order ${orderId} updated to ${status}`);
+        location.reload(); // Reload the page to reflect changes
+      } catch (err) {
+        console.error(err);
+        alert('Failed to update order status');
+      }
+    }
