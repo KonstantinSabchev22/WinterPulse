@@ -14,21 +14,26 @@ router.get('/', (req, res) => {
 // Route to handle checkout and save cart items to the database
 router.post('/checkout', async (req, res) => {
   try {
-    const cartItems = req.body.cartItems; // Array of items sent from the frontend session storage
+    const { cartItems, deliveryAddress } = req.body; // Include deliveryAddress from frontend
     const userId = req.user.id; // Assumes user is logged in and has an ID
 
-    console.log(cartItems);
-    // Example: Saving order details in MySQL
-    // You would save the order and order items here in your database
-    // Replace this with your specific database logic
-    
-    // Create a new order (pseudo code for your database operations)
-    const order = await Order.create({ userId });
+    // Validate that deliveryAddress is provided
+    if (!deliveryAddress || deliveryAddress.trim() === '') {
+      return res.status(400).json({ message: 'Delivery address is required.' });
+    }
+
+    console.log(cartItems, deliveryAddress);
+
+    // Create a new order
+    const order = await Order.create({ 
+      userId,
+      deliveryAddress, // Save the delivery address in the Order model
+    });
 
     // Save each item in the order
     const orderItems = cartItems.map(item => ({
       orderId: order.id,
-      snowboardId : item.productId,
+      snowboardId: item.productId,
       quantity: item.quantity,
       price: item.price,
     }));

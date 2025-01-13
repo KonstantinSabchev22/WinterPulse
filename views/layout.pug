@@ -4,6 +4,7 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
+    link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
   body
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
       .container-fluid
@@ -19,6 +20,8 @@ html
               if user.role == 'admin'
                 li.nav-item
                   a.nav-link(href='/snowboards/new') Добави нов Модел
+              li.nav-item
+                a.nav-link(href='/snowboards/favorites') Моите любими
             li.nav-item
               a.nav-link(href='/snowboards') Всички сноуборди
           form.d-flex(action='/snowboards' method='GET' role='search')

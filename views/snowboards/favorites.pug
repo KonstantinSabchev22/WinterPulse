@@ -1,0 +1,59 @@
+extends ../layout
+
+block content
+  .container.mt-4
+    h1.text-center Мои любими сноуборд модели
+    if snowboards.length > 0
+      .row
+        each snowboard in snowboards
+          .col-md-4.mb-4
+            .card
+              img.card-img-top(src=snowboard.imageUrl alt=snowboard.name)
+              .card-body
+                h5.card-title= snowboard.name
+                p.card-text
+                  | Модел: #{snowboard.model}
+                  br
+                  | Материал: #{snowboard.material}
+                  br
+                  | Дължина: #{snowboard.length} см
+                  br
+                  | Цена: #{snowboard.price} лв
+                button.btn.btn-danger.remove-favorite(data-id=snowboard.id) Премахни от любими
+    else
+      .alert.alert-info.text-center
+        | Нямате добавени любими сноуборд модели.
+
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get all remove-favorite buttons
+      const removeButtons = document.querySelectorAll('.remove-favorite');
+
+      // Add click event listener to each button
+      removeButtons.forEach((button) => {
+        button.addEventListener('click', async (event) => {
+          const snowboardId = button.dataset.id;
+
+          try {
+            // Send DELETE request to remove the favorite
+            const response = await fetch(`/snowboards/${snowboardId}/remove-favorite`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+
+            if (response.ok) {
+              // Reload the page if the request is successful
+              location.reload();
+            } else {
+              console.error('Failed to remove favorite:', response.statusText);
+              alert('Неуспешно премахване на сноуборда от любими!');
+            }
+          } catch (error) {
+            console.error('Error removing favorite:', error);
+            alert('Грешка при премахване на сноуборда от любими.');
+          }
+        });
+      });
+    });

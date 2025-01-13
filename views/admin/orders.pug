@@ -31,6 +31,7 @@ block content
           th User
           th Created At
           th Status
+          th Delivery Address
           th Actions
       tbody
         each order in orders
@@ -42,6 +43,7 @@ block content
               span.badge(
                 class=(order.status === 'Pending' ? 'bg-warning' : order.status === 'Completed' ? 'bg-success' : 'bg-danger')
               ) #{order.status}
+            td #{order.deliveryAddress || 'N/A'}
             td
               a.btn.btn-sm.btn-secondary.tablecell-button(href=`/admin/orders/${order.id}`) Details
               if order.status === 'Pending'

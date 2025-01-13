@@ -32,6 +32,7 @@ const SnowBoard = sequelize.define('SnowBoards', {
 // Define the reverse association
 SnowBoard.associate = (models) => {
   SnowBoard.hasMany(models.OrderItem, { foreignKey: 'snowboardId', as: 'orderItems' });
+  SnowBoard.hasMany(models.UserSnowboards, { foreignKey: 'snowboardId', as: 'userSnowboards' });
 };
 
 module.exports = SnowBoard;

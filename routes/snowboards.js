@@ -103,6 +103,28 @@ router.post('/:id/edit', middleware.ensureRole("admin"), async function(req, res
   }
 });
 
+router.delete('/:id/remove-favorite', middleware.ensureAuthenticated, async function(req, res, next) {
+  const data = {
+    userId: req.user.id,
+    snowboardId: req.params.id,
+  };
+
+  try {
+    const existingFavorite = await UserSnowboard.findOne({ where: data });
+    if (existingFavorite) {
+      // If yes, remove it
+      await existingFavorite.destroy();
+      return res.status(200).send("Snowboard is removed from favorites!");
+    } else {
+      return res.status(400).send("Snowboard not in favorites for current user!");
+    }
+  } catch(error) {
+    // Handle errors
+    console.error(error);
+    return res.status(500).send("An error occurred while processing your request!");
+  }
+});
+
 router.get('/:id/add-favorite', middleware.ensureAuthenticated, async function(req, res, next){
   const data = {
     userId: req.user.id,
@@ -128,6 +150,29 @@ router.get('/:id/add-favorite', middleware.ensureAuthenticated, async function(r
     return res.status(500).send("An error occurred while processing your request!");
   }
   
+});
+
+router.get('/favorites', middleware.ensureAuthenticated, async function (req, res, next) {
+  try {
+    // Find all UserSnowboard records for the logged-in user
+    const favoriteSnowboards = await UserSnowboard.findAll({
+      where: { userId: req.user.id },
+      include: [
+        {
+          model: SnowBoard,
+          as: 'snowboard',
+        },
+      ],
+    });
+
+    // Extract snowboards
+    const snowboards = favoriteSnowboards.map(fav => fav.snowboard);
+
+    res.render('snowboards/favorites', { snowboards });
+  } catch (error) {
+    console.error('Error fetching favorite snowboards:', error);
+    next(error);
+  }
 });
 
 router.get('/:id', async function (req, res, next) {

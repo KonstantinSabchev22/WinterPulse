@@ -21,4 +21,10 @@ const UserSnowboard = sequelize.define('UserSnowboards', {
   },
 });
 
+UserSnowboard.associate = (models) => {
+  UserSnowboard.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
+  UserSnowboard.belongsTo(models.SnowBoards, { foreignKey: 'snowboardId', as: 'snowboard' });
+};
+
+
 module.exports = UserSnowboard;

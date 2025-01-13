@@ -4,9 +4,14 @@ block content
   .container
     h1.text-center.mb-5 Your Cart
 
-    // Секция за артикули в количката
+    // Section for cart items
     #cart-items.row
       p.text-muted.text-center No items in cart yet.
+
+    // Section for delivery address input
+    .delivery-address-container.mt-4
+      label(for="delivery-address") Delivery Address
+      input#delivery-address.form-control(type="text" placeholder="Enter your delivery address" required)
 
     .checkout-button-container.text-center.mt-4
       button.btn.btn-success.btn-lg(onclick="checkout()") Checkout
@@ -16,14 +21,14 @@ block content
     function displayCartItems() {
       const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
       const cartItemsContainer = document.getElementById('cart-items');
-      
+
       // Check if cart is empty
       if (cart.length === 0) {
         cartItemsContainer.innerHTML = "<p class='text-muted text-center w-100'>No items in cart yet.</p>";
         return;
       }
-      
-      // Render the cart items dynamically with Remove button
+
+      // Render the cart items dynamically
       cartItemsContainer.innerHTML = cart.map((item, index) => `
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
           <div class="card mb-3 shadow-sm cart-item" data-index="${index}">
@@ -56,19 +61,25 @@ block content
     // Send cart data to the backend for checkout
     async function checkout() {
       const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      
-      // Check if the cart is empty
+      const deliveryAddress = document.getElementById('delivery-address').value.trim(); // Get delivery address
+
+      // Validate input
+      if (!deliveryAddress) {
+        alert("Delivery address is required.");
+        return;
+      }
+
       if (cart.length === 0) {
         alert("Your cart is empty.");
         return;
       }
 
       try {
-        // Make a POST request to the backend with the cart data
+        // Make a POST request to the backend with the cart data and delivery address
         const response = await fetch('/cart/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cartItems: cart })
+          body: JSON.stringify({ cartItems: cart, deliveryAddress })
         });
 
         const result = await response.json();

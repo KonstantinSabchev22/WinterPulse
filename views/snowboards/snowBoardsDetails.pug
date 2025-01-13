@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-    .container
+    .content-wrapper
         .row
             .col-lg-6
                 img(src=snowboard.imageUrl alt=snowboard.model style='width: 100%;')
@@ -21,14 +21,14 @@ block content
                         .button-container
                             if user
                                 if isFavorite
-                                    button.btn.btn-outline-primary(onclick=`toggleFavorite(${snowboard.id}, this)`) Премахни от любими
+                                    button.btn.btn-outline-primary.btn-snowboard-detail(onclick=`toggleFavorite(${snowboard.id}, this)`) Премахни от любими
                                 else
-                                    button.btn.btn-primary(onclick=`toggleFavorite(${snowboard.id}, this)`) Добави в любими
+                                    button.btn.btn-primary.btn-snowboard-detail(onclick=`toggleFavorite(${snowboard.id}, this)`) Добави в любими
                                 if user.role == 'admin'
-                                    a.btn.btn-warning(href='/snowboards/' + snowboard.id + '/edit') Промени
-                            a.btn.btn-secondary(href='/snowboards') Назад
+                                    a.btn.btn-warning.btn-snowboard-detail(href='/snowboards/' + snowboard.id + '/edit') Промени
+                            a.btn.btn-secondary.btn-snowboard-detail(href='/snowboards') Назад
                             // Add to Cart Button
-                            button.btn.btn-success(onclick=`addToCart(${snowboard.id}, "${snowboard.model}", ${snowboard.price}, "${snowboard.imageUrl}")`) Добави в количка
+                            button.btn.btn-success.btn-snowboard-detail(onclick=`addToCart(${snowboard.id}, "${snowboard.model}", ${snowboard.price}, "${snowboard.imageUrl}")`) Добави в количка
     script. 
         async function toggleFavorite(snowboardId, button) {
             try {

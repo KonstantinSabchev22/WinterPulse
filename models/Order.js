@@ -16,6 +16,11 @@ const Order = sequelize.define('Order', {
     defaultValue: 'Pending',
     comment: 'The status of the order',
   },
+  deliveryAddress: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    comment: 'The address where the order will be delivered',
+  },
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
