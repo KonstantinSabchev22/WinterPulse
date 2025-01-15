@@ -18,6 +18,7 @@ var adminSnowboardsRouter = require('./routes/admin/snowboards');
 var adminOrderManagementRouter = require('./routes/admin/orderManagement');
 var adminProfileRouter = require('./routes/admin/adminProfile');
 
+
 var app = express();
 
 // view engine setup

@@ -12,14 +12,14 @@ block content
                         | #{message}
                 form(action='/users/login' method='POST')
                     label(for='email') Имейл
-                    input.form-control(type='email' id='email' name='email' placeholder='User Email' required)
+                    input.form-control(type='email' id='email' name='email' placeholder='Въведете вашия имейл' required)
                     
                     label(for='password') Парола
-                    input.form-control(type='password' id='password' name='password' placeholder='Enter Your Password' required)
+                    input.form-control(type='password' id='password' name='password' placeholder='Въведете вашата парола' required)
                     
                     input.btn.btn-primary(type='submit' value='Влизане')
 
                     .link
                         a(href='#') Забравена парола?
                         | 
-                        a(href='#') Нямате акаунт?
+                        a(href='/users/register') Нямате акаунт?

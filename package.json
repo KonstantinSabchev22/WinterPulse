@@ -6,11 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.4",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^16.4.7",
     "express": "~4.16.1",
     "express-session": "^1.18.0",
     "http-errors": "~1.6.3",

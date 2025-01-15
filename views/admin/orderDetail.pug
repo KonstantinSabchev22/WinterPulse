@@ -20,6 +20,9 @@ block content
             class=(order.status === 'Pending' ? 'bg-warning' : order.status === 'Completed' ? 'bg-success' : 'bg-danger')
           ) #{order.status}
         p
+          strong Delivery Address: 
+          | #{order.deliveryAddress || 'N/A'}
+        p
           strong Created At: 
           | #{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}
         p

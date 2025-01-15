@@ -2,6 +2,12 @@
   margin-top: 80px;
 }
 
+.card-img-top {
+  height: 200px; /* Adjust as needed */
+  object-fit: cover;
+}
+
+
 
 a {
   color: #00B7FF;
@@ -197,6 +203,8 @@ p.lead {
   opacity: 1;
 }
 */
+
+
 .ribbon {
   width: 60px;
   font-size: 14px;
@@ -389,3 +397,11 @@ p.lead {
 .registerbox form a:hover {
   color: hsl(0, 0%, 0%);
 }
+
+.img-fluid{
+  height: 200px;
+  width: 50%;
+  display: flex;
+}
+
+
