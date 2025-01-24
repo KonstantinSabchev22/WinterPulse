@@ -103,7 +103,7 @@ router.post('/:id/edit', middleware.ensureRole("admin"), async function(req, res
   }
 });
 
-router.delete('/:id/remove-favorite', middleware.ensureAuthenticated, async function(req, res, next) {
+router.delete('/:id/remove-favorite', middleware.ensureAuthenticated, async function (req, res, next) {
   const data = {
     userId: req.user.id,
     snowboardId: req.params.id,
@@ -112,45 +112,42 @@ router.delete('/:id/remove-favorite', middleware.ensureAuthenticated, async func
   try {
     const existingFavorite = await UserSnowboard.findOne({ where: data });
     if (existingFavorite) {
-      // If yes, remove it
       await existingFavorite.destroy();
-      return res.status(200).send("Snowboard is removed from favorites!");
+      return res.status(200).json({ message: "Сноубордът беше премахнат от любими!" });
     } else {
-      return res.status(400).send("Snowboard not in favorites for current user!");
-    }
-  } catch(error) {
-    // Handle errors
-    console.error(error);
-    return res.status(500).send("An error occurred while processing your request!");
-  }
-});
-
-router.get('/:id/add-favorite', middleware.ensureAuthenticated, async function(req, res, next){
-  const data = {
-    userId: req.user.id,
-    snowboardId: req.params.id,
-  };
-  
-  try {
-    // Check if the snowboard is already added as a favorite
-    const existingFavorite = await UserSnowboard.findOne({ where: data });
-  
-    if (existingFavorite) {
-      // If yes, remove it
-      await existingFavorite.destroy();
-      return res.status(200).send("Snowboard is removed from favorites!");
-    } else {
-      // If not, add it
-      await UserSnowboards.create(data);
-      return res.status(200).send("Snowboard is added to favorites!");
+      return res.status(400).json({ message: "Сноубордът не е в любими за текущия потребител!" });
     }
   } catch (error) {
-    // Handle errors
     console.error(error);
-    return res.status(500).send("An error occurred while processing your request!");
+    return res.status(500).json({ message: "Възникна грешка при обработване на заявката!" });
   }
-  
 });
+
+router.get('/:id/add-favorite', middleware.ensureAuthenticated, async function(req, res, next) {
+  const data = {
+      userId: req.user.id,
+      snowboardId: req.params.id,
+  };
+
+  try {
+      const existingFavorite = await UserSnowboard.findOne({ where: data });
+
+      if (existingFavorite) {
+          await existingFavorite.destroy();
+          return res.status(200).send("removed"); // Consistent response
+      } else {
+          await UserSnowboards.create(data);
+          return res.status(200).send("added"); // Consistent response
+      }
+  } catch (error) {
+      console.error(error);
+      return res.status(500).send("error");
+  }
+});
+
+
+
+
 
 router.get('/favorites', middleware.ensureAuthenticated, async function (req, res, next) {
   try {

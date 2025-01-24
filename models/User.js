@@ -27,7 +27,16 @@ const User = sequelize.define('Users', {
   role: {
     type: DataTypes.ENUM('user', 'admin'),
     defaultValue: 'user'
-  }
+  },
+  isActivated: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false,
+  },
+  activationToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   tableName: 'users',
   hooks: {

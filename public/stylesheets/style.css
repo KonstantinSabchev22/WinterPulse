@@ -405,3 +405,61 @@ p.lead {
 }
 
 
+
+
+
+/* Toast container */
+#toast {
+  position: fixed;
+  top: 70px; /* Top-right corner */
+  right: 20px;
+  z-index: 1055;
+}
+
+/* Common toast styles */
+.toast {
+  display: flex;
+  align-items: center;
+  max-width: 350px;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  color: #fff;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Toast types */
+.toast.success {
+  background-color: #28a745; /* Green for success */
+}
+
+.toast.error {
+  background-color: #dc3545; /* Red for error */
+}
+
+.toast.info {
+  background-color: #007bff; /* Blue for informational messages */
+}
+
+/* Toast close button */
+.toast .close {
+  margin-left: auto;
+  font-size: 16px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.toast .close:hover {
+  opacity: 1;
+}

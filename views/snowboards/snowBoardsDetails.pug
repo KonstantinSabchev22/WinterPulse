@@ -29,7 +29,11 @@ block content
                             a.btn.btn-secondary.btn-snowboard-detail(href='/snowboards') Назад
                             // Add to Cart Button
                             button.btn.btn-success.btn-snowboard-detail(onclick=`addToCart(${snowboard.id}, "${snowboard.model}", ${snowboard.price}, "${snowboard.imageUrl}")`) Добави в количка
-    script. 
+
+    // Toast Container
+    #toast
+
+    script.
         async function toggleFavorite(snowboardId, button) {
             try {
                 const response = await fetch(`/snowboards/${snowboardId}/add-favorite`, {
@@ -41,51 +45,64 @@ block content
 
                 const result = await response.text();
 
-                if (response.ok){
-                    if (result.includes("added")) {
-                        button.className = "btn btn-outline-primary";
+                if (response.ok) {
+                    // Parse result for clarity
+                    const resultLowerCase = result.trim().toLowerCase(); // Trim any extra spaces or newlines
+
+                    if (resultLowerCase === "added") {
+                        button.className = "btn btn-outline-primary btn-snowboard-detail";
                         button.innerHTML = "Премахни от любими";
-                    } else {
-                        button.className = "btn btn-primary";
+                        showToast('success', 'Сноубордът е добавен в любими!');
+                    } else if (resultLowerCase === "removed") {
+                        button.className = "btn btn-primary btn-snowboard-detail";
                         button.innerHTML = "Добави в любими";
+                        showToast('info', 'Сноубордът е премахнат от любими!');
+                    } else {
+                     showToast('error', 'Непознат отговор от сървъра.');
                     }
                 } else {
-                    console.error('Request problem.');
+                    showToast('error', 'Грешка при обработката на заявката.');
                 }
             } catch(error) {
                 console.error(error);
+                showToast('error', 'Грешка при обработката на заявката.');
             }
         }
 
         // JavaScript function to add item to cart
         function addToCart(productId, productName, price, imageUrl) {
-            // Get current cart from session storage or create an empty array if not found
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            
-            // Check if the product is already in the cart
             const existingProduct = cart.find(item => item.productId === productId);
             if (existingProduct) {
-                existingProduct.quantity += 1; // Increase quantity if already in cart
+                existingProduct.quantity += 1;
             } else {
-                cart.push({ productId, productName, price, imageUrl, quantity: 1 }); // Add new product to cart
+                cart.push({ productId, productName, price, imageUrl, quantity: 1 });
             }
-            
-            // Save the updated cart back to session storage
             sessionStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Optionally, alert the user
-            alert(`${productName} е добавен в количката`);
-            
-            // Update cart count in navbar
             updateCartCount();
+            showToast('success', `${productName} е добавен в количката.`);
         }
 
-        // Update the cart count in the navbar
         function updateCartCount() {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
             document.getElementById('cart-count').textContent = cartCount;
         }
 
-        // Initialize cart count on page load
         document.addEventListener('DOMContentLoaded', updateCartCount);
+
+        function showToast(type, message) {
+            const toastContainer = document.getElementById('toast');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type} show`;
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button class="close" onclick="this.parentElement.remove()">×</button>
+            `;
+            toastContainer.appendChild(toast);
+
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                if (toast) toast.remove();
+            }, 5000);
+        }
