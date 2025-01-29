@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
-  h1 Account Activated
-  p Your account has been successfully activated. You can now log in.
-  a(href='/users/login') Log in
+  .d-flex.flex-column.align-items-center.justify-content-center.mt-5
+    h1.text-center Акаунтът е активиран
+    p.text-center Вашият акаунт беше успешно активиран. Вече можете да влезете в системата.
+    a.btn.btn-primary.mt-3(href='/users/login') Вход

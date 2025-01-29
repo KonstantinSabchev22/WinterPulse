@@ -1,3 +1,9 @@
+/* Import Google font - Poppins*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+
+
+
 .content-wrapper {
   margin-top: 80px;
 }
@@ -408,6 +414,18 @@ p.lead {
 
 
 
+
+/*Toast colors*/
+:root{
+  --dark: #34495E;
+  --light: #ffffff;
+  --success: #0ABF30;
+  --error: #E24D4C;
+  --warning: #E9BD0C;
+  --info: #3498DB;
+}
+
+
 /* Toast container */
 #toast {
   position: fixed;
@@ -418,18 +436,29 @@ p.lead {
 
 /* Common toast styles */
 .toast {
-  display: flex;
-  align-items: center;
-  max-width: 350px;
-  padding: 15px;
-  margin-top: 10px;
-  font-size: 14px;
-  border-radius: 8px;
-  color: #fff;
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  width: 400px;
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+  border-radius: 4px;
+  padding: 16px 17px;
+  margin-bottom: 10px;
+  background: var(--light);
+  justify-content: space-between;
+  animation: show_toast 0.3s ease forwards;
 }
+
+.toast::before{
+  position: absolute;
+  content: "";
+  height: 3px;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+  background: red;
+  animation: progress 5s linear forwards 
+}
+
 
 .toast.show {
   opacity: 1;

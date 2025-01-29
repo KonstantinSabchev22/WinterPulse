@@ -48,6 +48,7 @@ const User = sequelize.define('Users', {
 });
 
 User.associate = (models) => {
+  User.hasMany(models.PasswordResetToken, { foreignKey: 'userId', as: 'passwordResetTokens' });
   User.hasMany(models.Order, { foreignKey: 'userId', as: 'orders' });
 };
 

@@ -6,8 +6,17 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 /**
  * Generate an activation token.
  */
-function generateActivationToken() {
+
+function generageRandomToken() {
   return crypto.randomBytes(32).toString('hex');
+}
+
+function generateActivationToken() {
+  return generageRandomToken();
+}
+
+function generateForgotPasswordToken() {
+  return generageRandomToken();
 }
 
 /**
@@ -37,4 +46,41 @@ async function sendActivationEmail(email, firstName, activationLink) {
   }
 }
 
-module.exports = { generateActivationToken, sendActivationEmail };
+async function sendPasswordResetEmail(email, firstName, resetLink) {
+  const msg = {
+    to: email,
+    from: 'kocesabchev3@gmail.com',
+    subject: 'Reset Your Password',
+    html: `
+      <p>Hi ${firstName},</p>
+      <p>You requested to reset your password. Please click the link below to reset it:</p>
+      <a href="${resetLink}">Reset Password</a>
+      <p>If you did not request this, you can ignore this email.</p>
+    `,
+  };
+
+  try {
+    await sgMail.send(msg);
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    if (error.response) {
+      console.error(error.response.body);
+    }
+    throw new Error('Failed to send password reset email');
+  }
+}
+
+const emailOptions = {
+  protocol: "http",
+  address: 'localhost',
+  port: '3000', 
+};
+
+module.exports = { 
+  generateActivationToken, 
+  generateForgotPasswordToken,
+  sendActivationEmail, 
+  emailOptions, 
+  sendActivationEmail, 
+  sendPasswordResetEmail 
+};
