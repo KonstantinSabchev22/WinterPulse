@@ -33,7 +33,6 @@ router.get('/', async function(req, res, next) {
     res.render('snowboards/index', { snowboards: allSnowboards });
   } catch (error) {
     // Handle errors
-    console.log(error);
     next(error);
   }
 });
