@@ -1,8 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
-const OrderItem = require('./OrderItem'); // Import OrderItem model
 
-const SnowBoard = sequelize.define('SnowBoards', {
+const Product = sequelize.define('Product', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -27,12 +26,13 @@ const SnowBoard = sequelize.define('SnowBoards', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+}, {
+  tableName: 'Products', // This will create the table 'Products' in your database
 });
 
-// Define the reverse association
-SnowBoard.associate = (models) => {
-  SnowBoard.hasMany(models.OrderItem, { foreignKey: 'snowboardId', as: 'orderItems' });
-  SnowBoard.hasMany(models.UserSnowboards, { foreignKey: 'snowboardId', as: 'userSnowboards' });
+Product.associate = (models) => {
+  Product.hasMany(models.OrderItem, { foreignKey: 'productId', as: 'orderItems' });
+  Product.hasMany(models.UserProduct, { foreignKey: 'productId', as: 'userProducts' });
 };
 
-module.exports = SnowBoard;
+module.exports = Product;

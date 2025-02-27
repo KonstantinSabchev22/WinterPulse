@@ -40,8 +40,8 @@ block content
       tbody
         each item in order.items
           tr
-            td #{item.snowboard ? item.snowboard.name : 'N/A'}
-            td #{item.snowboard ? item.snowboard.model : 'N/A'}
+            td #{item.product ? item.product.name : 'N/A'}
+            td #{item.product ? item.product.model : 'N/A'}
             td #{item.quantity}
             td $#{item.price.toFixed(2)}
 

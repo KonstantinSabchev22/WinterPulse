@@ -1,3 +1,4 @@
+/*
 const toggleButton = document.getElementById('toggle-btn'); 
 const sidebar = document.getElementById('sidebar'); 
 const closeButton = document.getElementById('sidebar-close-btn'); // Add this if a close button exists
@@ -48,3 +49,4 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('click', (event) => {
     console.log('Clicked:', event.target);
 });
+*/

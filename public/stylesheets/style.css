@@ -1,25 +1,19 @@
-/* Import Google font - Poppins*/
+/* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
-
-
 
 .content-wrapper {
   margin-top: 80px;
 }
 
 .card-img-top {
-  height: 200px; /* Adjust as needed */
+  height: 200px;
   object-fit: cover;
 }
-
-
 
 a {
   color: #00B7FF;
 }
 
-/* General styling for cart page */
 h1 {
   font-family: 'Arial', sans-serif;
   font-weight: bold;
@@ -48,7 +42,7 @@ h1 {
   color: #555;
 }
 
-/* Стилове за изображенията */
+/* Image Styles */
 .cart-item-img {
   max-height: 200px;
   object-fit: cover;
@@ -101,10 +95,10 @@ h1 {
   background-image: url('/images/2.jpg'); /* Replace with your image URL */
   background-size: cover;
   background-position: center;
-  height: 80vh; /* Full height of the viewport */
+  height: 80vh;
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  justify-content: center;
+  align-items: center;
   color: white;
 }
 
@@ -114,21 +108,21 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Black overlay with 50% transparency */
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
 .hero .container {
   position: relative;
-  z-index: 2; /* Place content above overlay */
+  z-index: 2;
 }
 
 h1.display-4 {
-  font-size: 3rem; /* Default size */
+  font-size: 3rem;
 }
 
 p.lead {
-  font-size: 2rem; /* Default size */
+  font-size: 2rem;
   padding: 1rem 2rem;
 }
 
@@ -137,35 +131,8 @@ p.lead {
   padding: 1rem 2rem;
 }
 
-.btn-snowboard-detail {
+.btn-product-detail {
   margin: 10px;
-}
-
-@media (max-width: 768px) {
-  .card-title {
-    font-size: 2.25rem;
-  }
-
-  .card-text {
-    font-size: 1.75rem;
-  }
-
-  h1.display-4 {
-    font-size: 7rem; /* Adjust heading size for smaller screens */
-  }
-
-  p.lead {
-    font-size: 2.5rem; /* Adjust subtitle size for smaller screens */
-  }
-
-  .btn-lg {
-    font-size: 2.5rem; /* Adjust button size for smaller screens */
-    padding: 1rem 2rem;
-  }
-
-  .btn-snowboard-detail {
-    font-size: 1.5rem !important;
-  }
 }
 
 .content-wrapper {
@@ -183,33 +150,14 @@ p.lead {
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
-  font-size: 0.75rem; /* Adjust size of the counter text */
+  font-size: 0.75rem;
   min-width: 18px;
   min-height: 18px;
   line-height: 18px;
   text-align: center;
   border-radius: 50%;
-  padding: 0; /* No padding to keep it circular */
+  padding: 0;
 }
-
-
-
-/*
-.btn{
-  background-color: dodgerblue;
-  color: white;
-  padding: 15px 20px;
-  border: none;
-  cursor: pointer;
-  width: 200px;
-  opacity: 0.9;
-}
-
-.btn:hover {
-  opacity: 1;
-}
-*/
-
 
 .ribbon {
   width: 60px;
@@ -225,197 +173,12 @@ p.lead {
   color: white;
 }
 
-.section-area {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative; /* Ensure proper stacking */
-}
-
-.section-area-img {
-  width: 0;
-  height: 0;
-  object-fit: cover; /* Ensure the background image scales properly */
-}
-
-
-
-
-/* Login CSS */
-.loginbox {
-  width: 450px;
-  height: 500px;
-  margin-top: 70px;
-  padding: 70px 30px;
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-  position: absolute;
-  top: 13%;
-  z-index: 1; /* Place it above the background image */
-  border-radius: 10px; /* Smooth corners */
-}
-
-
-.loginbox .logo {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-  top: -50px;
-  left: calc(50% - 50px);
-  border-radius: 50%;
-}
-
-.loginbox h2 {
-  font-size: 30px;
-  text-align: center;
-  margin-top: 30px; /* Add space below logo */
-}
-
-.loginbox form {
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.loginbox form label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 18px;
-}
-
-.loginbox form input {
-  width: 100%;
-  height: 40px;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background: transparent;
-  outline: none;
-  font-size: 16px;
-  padding: 5px 0;
-}
-
-.loginbox form input[type="submit"] {
-  margin-top: 20px;
-  border: none;
-  text-align: center;
-  height: 40px;
-  background: dodgerblue;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.loginbox form input[type="submit"]:hover {
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42); 
-}
-
-.loginbox form a {
-  display: block;
-  margin-top: 10px;
-  color: black;
-  font-size: 14px;
-  text-align: center;
-}
-
-.loginbox form a:hover {
-  color: hsl(0, 0%, 0%);
-}
-
-/* Register CSS */
-.registerbox{
-  width: 450px;
-  height: 600px;
-  margin-top: 30px;
-  padding: 70px 30px;
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-  position: absolute;
-  top: 13%;
-  z-index: 1; /* Place it above the background image */
-  border-radius: 10px; /* Smooth corners */
-}
-
-.registerbox .logo {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  margin-top: 20px;
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-  top: -50px;
-  left: calc(50% - 50px);
-  border-radius: 50%;
-}
-
-.registerbox h2 {
-  font-size: 30px;
-  text-align: center;
-  margin-top: 10px; /* Add space below logo */
-}
-
-.registerbox form {
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.registerbox form label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 18px;
-}
-
-.registerbox form input {
-  width: 100%;
-  height: 40px;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background: transparent;
-  outline: none;
-  font-size: 16px;
-  padding: 5px 0;
-}
-
-.registerbox form input[type="submit"] {
-  margin-top: 20px;
-  border: none;
-  text-align: center;
-  height: 40px;
-  background: dodgerblue;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.registerbox form input[type="submit"]:hover {
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42); 
-}
-
-.registerbox form a {
-  display: block;
-  margin-top: 10px;
-  color: black;
-  font-size: 14px;
-  text-align: center;
-}
-
-.loginbox form a:hover{
-  color: hsl(238, 94%, 44%);
-}
-
-.registerbox form a:hover {
-  color: hsl(0, 0%, 0%);
-}
 
 .img-fluid{
   height: 200px;
   width: 50%;
   display: flex;
 }
-
-
-
-
 
 
 /*Colors*/
@@ -503,97 +266,69 @@ p.lead {
 }
 
 
-/*Sidebar CSS*/
-#sidebar {
-  box-sizing: border-box;
-  height: 100vh;
-  width: 250px;
-  padding: 5px 1em;
-  background-color: var(--base-clr);
-  border-right: 1px solid var(--line-clr);
-  position: sticky;
-  top: 0;
-  align-self: start;
-  transition: 300ms ease-in-out;
-  overflow: hidden;
-  text-wrap: nowrap;
+/* Pagination */
+.pagination {
+  display: inline-block;
+  margin-top: 20px;
 }
 
-#sidebar.close {
-  padding: 5px;
-  width: 60px;
-}
-
-#sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-#sidebar > ul > li:first-child {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-}
-
-#sidebar a, #sidebar .dropdown-btn, #sidebar .logo {
-  border-radius: .5em;
-  padding: .85em;
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
   text-decoration: none;
-  color: var(--text-clr);
-  display: flex;
-  align-items: center;
-  gap: 1em;
+  border: 1px solid #ddd;
+  margin-right: 4px;
+  border-radius: 5px;
 }
 
-#sidebar a:hover, #sidebar .dropdown-btn:hover {
-  background-color: var(--hover-clr);
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid #4CAF50;
 }
 
-#sidebar .sub-menu {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: 300ms ease-in-out;
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+/* 🔥 Fix: Override Bootstrap styles for mobile */
+@media (max-width: 768px) {
+    .content-wrapper .card-body .card-title2 {
+        font-size: 3.5rem !important;
+        font-weight: bold !important;
+        color: #222 !important;
+    }
+
+    .content-wrapper .card-body .card-text2 {
+        font-size: 3rem !important;
+        color: #555 !important;
+    }
 }
 
-#sidebar .sub-menu.show {
-  grid-template-rows: 1fr;
+/* Global Font Scaling */
+@media (max-width: 994px) {
+    h1, h2, h3 {
+        font-size: 3.5rem !important;
+    }
+
+    h4, h5, h6 {
+        font-size: 3rem !important;
+    }
+
+    p {
+        font-size: 2.6rem !important;
+    }
+
+    a {
+      font-size: 2.6rem !important;
+    }
 }
 
-#sidebar .sub-menu a {
-  padding-left: 1.6em;
+/* Ensure Cards are One Per Row on Mobile */
+@media (max-width: 768px) {
+    .col-md-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }
-
-#sidebar .dropdown-btn {
-  position: relative;
-}
-
-#sidebar .dropdown-btn svg.rotate {
-  transform: rotate(90deg);
-}
-
-#sidebar li.active {
-  background-color: var(--hover-clr);
-}
-
-#sidebar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-#toggle-btn {
-  background: none;
-  border: none;
-  color: var(--text-clr);
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-#toggle-btn.rotate {
-  transform: rotate(180deg);
-}
-
-
-
-
-
-

@@ -6,6 +6,9 @@ html
     link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
     link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css")
+    link(rel='stylesheet', href='/stylesheets/loginForm.css')
+    link(rel='stylesheet', href='/stylesheets/register.css')
+    link(rel='stylesheet', href='/stylesheets/sidebar.css')
   body
     //- Navbar remains unchanged
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
@@ -21,13 +24,13 @@ html
             if user
               if user.role == 'admin'
                 li.nav-item
-                  a.nav-link(href='/snowboards/new') Добави нов Модел
+                  a.nav-link(href='/products/new') Добави нов Модел
               li.nav-item
-                a.nav-link(href='/snowboards/favorites') Моите любими
+                a.nav-link(href='/products/favorites') Моите любими
             li.nav-item
-              a.nav-link(href='/snowboards') Всички сноуборди
-          form.d-flex(action='/snowboards' method='GET' role='search')
-            input.form-control.me-2(name='snowboardFilter' type='search' snowboardholder='сноуборд' aria-label='Search')
+              a.nav-link(href='/products') Всички сноуборди
+          form.d-flex(action='/products' method='GET' role='search')
+            input.form-control.me-2(name='productFilter' type='search' productholder='продукт' aria-label='Search')
             button.btn.btn-outline-success(type='submit') Търси
           ul.nav.navbar-nav.navbar-right
             // Cart icon with counter badge
@@ -113,7 +116,7 @@ html
       block content
 
     script(src="/bootstrap/js/bootstrap.bundle.min.js")
-    script(src="/public/javascripts/sidebar.js")
+    script(src="/javascripts/sidebar.js")
     script.
       // Function to update cart count in navbar
       function updateCartCount() {

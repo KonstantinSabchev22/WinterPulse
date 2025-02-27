@@ -1,21 +1,21 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database');
-const SnowBoard = require('./SnowBoard'); // Import SnowBoard model
+const Product = require('./Product'); // Import Product model
 
 const OrderItem = sequelize.define('OrderItem', {
   orderId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Orders', // Reference to the Orders table
+      model: 'orders', // Reference to the Orders table
       key: 'id',
     },
   },
-  snowboardId: {
+  productId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'SnowBoards', // Reference to the SnowBoards table
+      model: 'products', // Reference to Products table
       key: 'id',
     },
   },
@@ -33,7 +33,7 @@ const OrderItem = sequelize.define('OrderItem', {
 // Define the association
 OrderItem.associate = (models) => {
   OrderItem.belongsTo(models.Order, { foreignKey: 'orderId', as: 'order' });
-  OrderItem.belongsTo(models.SnowBoards, { foreignKey: 'snowboardId', as: 'snowboard' });
+  OrderItem.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' });
 };
 
 

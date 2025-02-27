@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
+const {ensureAuthenticated, ensureRole} = require('../../middleware/auth');
 
 // Route to get the current user profile
-router.get('/', async (req, res) => {
+router.get('/', ensureRole('admin'), async (req, res) => {
     try {
       const userId = req.user.id;
   

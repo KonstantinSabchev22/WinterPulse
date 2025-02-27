@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .container
+    h1 Edit Product
+
+    // Form to edit product
+    form(action=`/admin/products/${product.id}/edit` method="POST")
+      .mb-3
+        label(for="name") Name
+        input#name.form-control(type="text" name="name" required value=product.name)
+
+      .mb-3
+        label(for="model") Model
+        input#model.form-control(type="text" name="model" required value=product.model)
+
+      .mb-3
+        label(for="length") Length (cm)
+        input#length.form-control(type="number" name="length" required min="0" value=product.length)
+
+      .mb-3
+        label(for="material") Material
+        input#material.form-control(type="text" name="material" value=product.material)
+
+      .mb-3
+        label(for="price") Price ($)
+        input#price.form-control(type="number" name="price" required step="0.01" min="0" value=product.price)
+
+      .mb-3
+        label(for="imageUrl") Image URL
+        input#imageUrl.form-control(type="url" name="imageUrl" value=product.imageUrl)
+
+      // Submit Button
+      button.btn.btn-primary(type="submit") Save Changes
+
+      // Cancel Button
+      a.btn.btn-secondary(href="/admin/products") Cancel

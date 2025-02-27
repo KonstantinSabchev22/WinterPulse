@@ -15,24 +15,24 @@ html(lang="en")
           a.d-flex.align-items-center.mb-3.mb-md-0.me-md-auto.text-white.text-decoration-none(href="/")
             svg.bi.me-2(width="40" height="32")
               use(xlink:href="#bootstrap")
-            span.fs-4 Admin Panel
+            span.fs-4 Админ Панел
           hr
           ul.nav.nav-pills.flex-column.mb-auto
             li.nav-item
               a.nav-link(class=(activePage === 'home' ? 'active' : 'text-white') href="/admin/index")
                 svg.bi.me-2(width="16" height="16")
                   use(xlink:href="#home")
-                | Home
+                | Начало
             li
-              a.nav-link(class=(activePage === 'snowboards' ? 'active' : 'text-white') href="/admin/snowboards")
+              a.nav-link(class=(activePage === 'products' ? 'active' : 'text-white') href="/admin/products")
                 svg.bi.me-2(width="16" height="16")
                   use(xlink:href="#speedometer2")
-                | Snowboards
+                | Продукти
             li
               a.nav-link(class=(activePage === 'orders' ? 'active' : 'text-white') href="/admin/orders")
                 svg.bi.me-2(width="16" height="16")
                   use(xlink:href="#table")
-                | Orders
+                | Поръчки
           hr
           .dropdown
             a.d-flex.align-items-center.text-white.text-decoration-none.dropdown-toggle(href="#" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false")
@@ -43,11 +43,11 @@ html(lang="en")
                 strong mdo
             ul.dropdown-menu.dropdown-menu-dark.text-small.shadow(aria-labelledby="dropdownUser1")
               li
-                a.dropdown-item(href="/admin/profile") Profile
+                a.dropdown-item(href="/admin/profile") Профил
               li
                 hr.dropdown-divider
               li
-                a.dropdown-item(href="/users/logout") Sign out
+                a.dropdown-item(href="/users/logout") Изход
       .col
         //Content area
         .p-4(style="flex-grow: 1;")

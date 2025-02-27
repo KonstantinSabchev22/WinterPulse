@@ -4,9 +4,9 @@ block content
     .container.mt-5(style="max-width: 90%;")
         .card.shadow
             .card-header.bg-primary.text-white
-                h4.text-center Добавяне на сноуборд
+                h4.text-center Добавяне на продукт
             .card-body
-                form(action='/snowboards/new' method='POST') 
+                form(action='/products/new' method='POST') 
                     .mb-3
                         label(for="name" class="form-label") Наименование
                         input#name.form-control(type="text" name="name" placeholder="Въведете наименование")

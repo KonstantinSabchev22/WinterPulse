@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const {ensureAuthenticated, ensureRole} = require('../../middleware/auth');
 const activePage = 'home';
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', ensureRole('admin'), function(req, res, next) {
   res.render('admin/index', { title: 'Express' , activePage: activePage, currentUser: req.user });
 });
 

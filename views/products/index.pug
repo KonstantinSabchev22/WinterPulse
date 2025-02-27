@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  .content-wrapper
+    .banner-wrapper.mb-4
+      .container
+        img.banner-img(src='/images/banner-img.png' alt='Banner Image' class='img-fluid')
+
+    h1.heading-title.text-center Вскички продукти
+    .container
+      .row
+        each product in products
+          .col-xl-3.col-lg-4.col-md-12.col-12.mb-4
+            .card.h-100.d-flex.flex-column
+              img.card-img-top(src=product.imageUrl alt='продукт изображение') 
+              .ribbon NEW
+              .card-body
+                p.h3.card-title2= product.name
+                p.card-text2= product.model.substr(0, 100)
+                p.card-text2= `Цена: ${product.price.toFixed(2)} лв`
+                a.btn.btn-primary.mt-auto(href=`/products/${product.id}`) Детайли

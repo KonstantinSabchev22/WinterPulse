@@ -6,7 +6,7 @@ const Order = sequelize.define('Order', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Users', // Reference to the Users table
+      model: 'users', // Reference to the Users table
       key: 'id',
     },
   },

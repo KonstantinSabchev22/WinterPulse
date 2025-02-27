@@ -4,39 +4,39 @@ block content
     .content-wrapper
         .row
             .col-lg-6
-                img(src=snowboard.imageUrl alt=snowboard.model style='width: 100%;')
+                img(src=product.imageUrl alt=product.model style='width: 100%;')
             .col-lg-6
                 .card
                     .card-body
                         h5.card-title Име
-                        p.card-text= snowboard.model
+                        p.card-text= product.model
                         h5.card-title Материал
-                        p.card-text= snowboard.material
+                        p.card-text= product.material
                         h5.card-title Дължина
-                        p.card-text= snowboard.length
+                        p.card-text= product.length
                         h5.card-title ID
-                        p.card-text= snowboard.id
+                        p.card-text= product.id
                         h5.card-title Цена
-                        p.card-text= `${snowboard.price.toFixed(2)} лв`
+                        p.card-text= `${product.price.toFixed(2)} лв`
                         .button-container
                             if user
                                 if isFavorite
-                                    button.btn.btn-outline-primary.btn-snowboard-detail(onclick=`toggleFavorite(${snowboard.id}, this)`) Премахни от любими
+                                    button.btn.btn-outline-primary.btn-product-detail(onclick=`toggleFavorite(${product.id}, this)`) Премахни от любими
                                 else
-                                    button.btn.btn-primary.btn-snowboard-detail(onclick=`toggleFavorite(${snowboard.id}, this)`) Добави в любими
+                                    button.btn.btn-primary.btn-product-detail(onclick=`toggleFavorite(${product.id}, this)`) Добави в любими
                                 if user.role == 'admin'
-                                    a.btn.btn-warning.btn-snowboard-detail(href='/snowboards/' + snowboard.id + '/edit') Промени
-                            a.btn.btn-secondary.btn-snowboard-detail(href='/snowboards') Назад
+                                    a.btn.btn-warning.btn-product-detail(href='/products/' + product.id + '/edit') Промени
+                            a.btn.btn-secondary.btn-product-detail(href='/products') Назад
                             // Add to Cart Button
-                            button.btn.btn-success.btn-snowboard-detail(onclick=`addToCart(${snowboard.id}, "${snowboard.model}", ${snowboard.price}, "${snowboard.imageUrl}")`) Добави в количка
+                            button.btn.btn-success.btn-product-detail(onclick=`addToCart(${product.id}, "${product.model}", ${product.price}, "${product.imageUrl}")`) Добави в количка
 
     // Toast Container
     #toast
 
     script.
-        async function toggleFavorite(snowboardId, button) {
+        async function toggleFavorite(productId, button) {
             try {
-                const response = await fetch(`/snowboards/${snowboardId}/add-favorite`, {
+                const response = await fetch(`/products/${productId}/add-favorite`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -50,13 +50,13 @@ block content
                     const resultLowerCase = result.trim().toLowerCase(); // Trim any extra spaces or newlines
 
                     if (resultLowerCase === "added") {
-                        button.className = "btn btn-outline-primary btn-snowboard-detail";
+                        button.className = "btn btn-outline-primary btn-product-detail";
                         button.innerHTML = "Премахни от любими";
-                        showToast('success', 'Сноубордът е добавен в любими!');
+                        showToast('success', 'Продуктът е добавен в любими!');
                     } else if (resultLowerCase === "removed") {
-                        button.className = "btn btn-primary btn-snowboard-detail";
+                        button.className = "btn btn-primary btn-product-detail";
                         button.innerHTML = "Добави в любими";
-                        showToast('info', 'Сноубордът е премахнат от любими!');
+                        showToast('info', 'Продуктът е премахнат от любими!');
                     } else {
                      showToast('error', 'Непознат отговор от сървъра.');
                     }

@@ -1,25 +1,24 @@
 extends ../layout
 
 block content
-    .container
-        section.section-area
-            img.section-area-img(src='/images/background-img.jpg' alt='bg-image')
-            .loginbox
-                img.logo(src='/images/Login-img.jpg' alt='User Logo')
-                h2 Влизане
-                if message
-                    .alert.alert-danger(role='alert')
-                        | #{message}
-                form(action='/users/login' method='POST')
-                    label(for='email') Имейл
-                    input.form-control(type='email' id='email' name='email' placeholder='Въведете вашия имейл' required)
-                    
-                    label(for='password') Парола
-                    input.form-control(type='password' id='password' name='password' placeholder='Въведете вашата парола' required)
-                    
-                    input.btn.btn-primary(type='submit' value='Влизане')
+  .container
+    section.section-area
+      .loginbox
+        img.logo(src='/images/Login-img.jpg' alt='User Logo')
+        h2 Влизане
+        if message
+          .alert.alert-danger(role='alert')
+            | #{message}
+        form(action='/users/login' method='POST')
+          label(for='email') Имейл
+          input.form-control(type='email' id='email' name='email' placeholder='Въведете вашия имейл' required)
+          
+          label(for='password') Парола
+          input.form-control(type='password' id='password' name='password' placeholder='Въведете вашата парола' required)
+          
+          input.btn.btn-primary(type='submit' value='Влизане')
 
-                    .link
-                        a(href='/users/forgot-password') Забравена парола?
-                        | 
-                        a(href='/users/register') Нямате акаунт?
+          .link
+            a(href='/users/forgot-password') Забравена парола?
+            | 
+            a(href='/users/register') Нямате акаунт?

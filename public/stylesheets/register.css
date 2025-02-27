@@ -1,0 +1,85 @@
+/* Register CSS */
+.registerbox{
+    width: 450px;
+    height: 600px;
+    margin-top: 30px;
+    padding: 70px 30px;
+    box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
+    position: absolute;
+    top: 13%;
+    z-index: 1; /* Place it above the background image */
+    border-radius: 10px; /* Smooth corners */
+  }
+  
+  .registerbox .logo {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    margin-top: 20px;
+    box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
+    top: -50px;
+    left: calc(50% - 50px);
+    border-radius: 50%;
+  }
+  
+  .registerbox h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-top: 10px; /* Add space below logo */
+  }
+  
+  .registerbox form {
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .registerbox form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    background-color: transparent;
+  }
+  
+  .registerbox form input {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    padding: 5px 0;
+  }
+  
+  .registerbox form input[type="submit"] {
+    margin-top: 20px;
+    border: none;
+    text-align: center;
+    height: 40px;
+    background: dodgerblue;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .registerbox form input[type="submit"]:hover {
+    box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42); 
+  }
+  
+  .registerbox form a {
+    display: block;
+    margin-top: 10px;
+    color: black;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .loginbox form a:hover{
+    color: hsl(238, 94%, 44%);
+  }
+  
+  .registerbox form a:hover {
+    color: hsl(0, 0%, 0%);
+  }
+  

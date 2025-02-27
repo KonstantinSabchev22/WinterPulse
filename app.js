@@ -11,10 +11,10 @@ const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var snowboardsRouter = require('./routes/snowboards');
+var productsRouter = require('./routes/products');
 var cartRouter = require('./routes/cart');
 var adminIndexRouter = require('./routes/admin/index');
-var adminSnowboardsRouter = require('./routes/admin/snowboards');
+var adminProductsRouter = require('./routes/admin/products');
 var adminOrderManagementRouter = require('./routes/admin/orderManagement');
 var adminProfileRouter = require('./routes/admin/adminProfile');
 
@@ -70,10 +70,10 @@ sequelize.sync({ alter: true }) // This will alter the tables to match the model
 // Define routes after session and flash middleware
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/snowboards', snowboardsRouter);
+app.use('/products', productsRouter);
 app.use('/cart', cartRouter);
 app.use('/admin/index', adminIndexRouter);
-app.use('/admin/snowboards', adminSnowboardsRouter);
+app.use('/admin/products', adminProductsRouter);
 app.use('/admin/orders', adminOrderManagementRouter);
 app.use('/admin/profile', adminProfileRouter);
 

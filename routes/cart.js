@@ -33,7 +33,7 @@ router.post('/checkout', async (req, res) => {
     // Save each item in the order
     const orderItems = cartItems.map(item => ({
       orderId: order.id,
-      snowboardId: item.productId,
+      productId: item.productId,
       quantity: item.quantity,
       price: item.price,
     }));

@@ -177,8 +177,8 @@ router.post('/reset-password/:token', async (req, res, next) => {
 
 
 router.get('/', async (req, res) => {
-  const snowboards = await Snowboard.findAll(); // Fetch data
-  res.render('users/index', { page: 'index', snowboards }); // Pass 'page' variable
+  const products = await Product.findAll(); // Fetch data
+  res.render('users/index', { page: 'index', products }); // Pass 'page' variable
 });
 
 

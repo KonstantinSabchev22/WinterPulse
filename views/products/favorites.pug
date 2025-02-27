@@ -2,27 +2,27 @@ extends ../layout
 
 block content
   .container.mt-4
-    h1.text-center Мои любими сноуборд модели
-    if snowboards.length > 0
+    h1.text-center Мои любими продукти
+    if products.length > 0
       .row
-        each snowboard in snowboards
+        each product in products
           .col-md-4.mb-4
             .card
-              img.card-img-top(src=snowboard.imageUrl alt=snowboard.name)
+              img.card-img-top(src=product.imageUrl alt=product.name)
               .card-body
-                h5.card-title= snowboard.name
+                h5.card-title= product.name
                 p.card-text
-                  | Модел: #{snowboard.model}
+                  | Модел: #{product.model}
                   br
-                  | Материал: #{snowboard.material}
+                  | Материал: #{product.material}
                   br
-                  | Дължина: #{snowboard.length} см
+                  | Дължина: #{product.length} см
                   br
-                  | Цена: #{snowboard.price} лв
-                button.btn.btn-danger.remove-favorite(data-id=snowboard.id) Премахни от любими
+                  | Цена: #{product.price} лв
+                button.btn.btn-danger.remove-favorite(data-id=product.id) Премахни от любими
     else
       .alert.alert-info.text-center
-        | Нямате добавени любими сноуборд модели.
+        | Нямате добавени любими продукти.
 
   script.
     document.addEventListener('DOMContentLoaded', () => {
@@ -32,11 +32,11 @@ block content
       // Add click event listener to each button
       removeButtons.forEach((button) => {
         button.addEventListener('click', async (event) => {
-          const snowboardId = button.dataset.id;
+          const productId = button.dataset.id;
 
           try {
             // Send DELETE request to remove the favorite
-            const response = await fetch(`/snowboards/${snowboardId}/remove-favorite`, {
+            const response = await fetch(`/products/${productId}/remove-favorite`, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json',
@@ -48,11 +48,11 @@ block content
               location.reload();
             } else {
               console.error('Failed to remove favorite:', response.statusText);
-              alert('Неуспешно премахване на сноуборда от любими!');
+              alert('Неуспешно премахване на продукта от любими!');
             }
           } catch (error) {
             console.error('Error removing favorite:', error);
-            alert('Грешка при премахване на сноуборда от любими.');
+            alert('Грешка при премахване на продукта от любими.');
           }
         });
       });

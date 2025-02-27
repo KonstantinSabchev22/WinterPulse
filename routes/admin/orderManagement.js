@@ -1,16 +1,17 @@
 var express = require('express');
 var router = express.Router();
+const {ensureAuthenticated, ensureRole} = require('../../middleware/auth');
 
 const { Op } = require('sequelize');
 const Order = require('../../models/Order');
 const OrderItem = require('../../models/OrderItem');
-const Snowboard = require('../../models/Snowboard');
+const Product = require('../../models/Product');
 const User = require('../../models/User');
 
 const activePage = 'orders';
 
 // Fetch all orders with optional filters
-router.get('/', async function (req, res, next) {
+router.get('/', ensureRole('admin'), async function (req, res, next) {
   const { status, startDate, endDate } = req.query;
 
   try {
@@ -23,7 +24,7 @@ router.get('/', async function (req, res, next) {
     const orders = await Order.findAll({
       where: filters,
       include: [
-        { model: OrderItem, as: 'items', include: [{ model: Snowboard, as: 'snowboard' }] },
+        { model: OrderItem, as: 'items', include: [{ model: Product, as: 'product' }] },
         { model: User, as: 'user' },
       ],
     });
@@ -37,7 +38,7 @@ router.get('/', async function (req, res, next) {
 });
 
 // Fetch details for a specific order
-router.get('/:id', async function (req, res, next) {
+router.get('/:id', ensureRole('admin'), async function (req, res, next) {
   const { id } = req.params;
 
   try {
@@ -45,7 +46,7 @@ router.get('/:id', async function (req, res, next) {
     const order = await Order.findOne({
       where: { id },
       include: [
-        { model: OrderItem, as: 'items', include: [{ model: Snowboard, as: 'snowboard' }] },
+        { model: OrderItem, as: 'items', include: [{ model: Product, as: 'product' }] },
         { model: User, as: 'user' },
       ],
     });
@@ -63,7 +64,7 @@ router.get('/:id', async function (req, res, next) {
 });
 
 // Update the status of an order
-router.patch('/:id', async function (req, res, next) {
+router.patch('/:id', ensureRole('admin'), async function (req, res, next) {
   const { id } = req.params;
   const { status } = req.body;
 
