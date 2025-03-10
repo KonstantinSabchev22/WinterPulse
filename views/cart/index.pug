@@ -65,12 +65,12 @@ block content
 
       // Validate input
       if (!deliveryAddress) {
-        alert("Delivery address is required.");
+        showToast('info', 'Delivery address is required.');
         return;
       }
 
       if (cart.length === 0) {
-        alert("Your cart is empty.");
+        showToast('info', 'Your cart is empty.');
         return;
       }
 
@@ -84,17 +84,16 @@ block content
 
         const result = await response.json();
 
-        // Handle response
         if (response.ok) {
-          alert(result.message);
-          sessionStorage.removeItem('cart'); // Clear the cart after checkout
-          window.location.href = '/'; // Redirect to the homepage or order confirmation page
+            showToast('success', result.message);
+            sessionStorage.removeItem('cart');
+            window.location.href = '/';
         } else {
-          alert(result.message); // Show the error message from the backend
+            showToast('error', result.message);
         }
       } catch (error) {
         console.error('Checkout error:', error);
-        alert('There was an error processing your checkout.');
+        showToast('error', 'Възникна грешка при обработката на поръчката.');
       }
     }
 

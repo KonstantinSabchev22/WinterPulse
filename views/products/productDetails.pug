@@ -37,17 +37,14 @@ block content
         async function toggleFavorite(productId, button) {
             try {
                 const response = await fetch(`/products/${productId}/add-favorite`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
                 });
 
                 const result = await response.text();
 
                 if (response.ok) {
-                    // Parse result for clarity
-                    const resultLowerCase = result.trim().toLowerCase(); // Trim any extra spaces or newlines
+                    const resultLowerCase = result.trim().toLowerCase();
 
                     if (resultLowerCase === "added") {
                         button.className = "btn btn-outline-primary btn-product-detail";
@@ -58,18 +55,17 @@ block content
                         button.innerHTML = "Добави в любими";
                         showToast('info', 'Продуктът е премахнат от любими!');
                     } else {
-                     showToast('error', 'Непознат отговор от сървъра.');
+                    showToast('error', 'Непознат отговор от сървъра.');
                     }
                 } else {
                     showToast('error', 'Грешка при обработката на заявката.');
                 }
-            } catch(error) {
+            } catch (error) {
                 console.error(error);
                 showToast('error', 'Грешка при обработката на заявката.');
             }
         }
 
-        // JavaScript function to add item to cart
         function addToCart(productId, productName, price, imageUrl) {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             const existingProduct = cart.find(item => item.productId === productId);
@@ -95,14 +91,29 @@ block content
             const toastContainer = document.getElementById('toast');
             const toast = document.createElement('div');
             toast.className = `toast ${type} show`;
+
             toast.innerHTML = `
-                <span>${message}</span>
-                <button class="close" onclick="this.parentElement.remove()">×</button>
+                <div class="column">
+                    <i class="${getIconClass(type)}"></i>
+                    <span>${message}</span>
+                </div>
+                <i class="close fas fa-times" onclick="this.parentElement.remove()"></i>
             `;
+
             toastContainer.appendChild(toast);
 
             // Remove toast after 5 seconds
             setTimeout(() => {
                 if (toast) toast.remove();
             }, 5000);
+        }
+
+        function getIconClass(type) {
+            switch (type) {
+                case 'success': return 'fas fa-check-circle';
+                case 'error': return 'fas fa-exclamation-circle';
+                case 'info': return 'fas fa-info-circle';
+                case 'warning': return 'fas fa-exclamation-triangle';
+                default: return 'fas fa-bell';
+            }
         }

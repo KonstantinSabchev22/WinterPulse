@@ -1,52 +1,39 @@
-/*
-const toggleButton = document.getElementById('toggle-btn'); 
-const sidebar = document.getElementById('sidebar'); 
-const closeButton = document.getElementById('sidebar-close-btn'); // Add this if a close button exists
-
-// Toggle sidebar open/close
-function toggleSidebar() {
-    sidebar.classList.toggle('close'); 
-    toggleButton.classList.toggle('rotate'); 
-    closeAllSubMenus();
-}
-
-// Close sidebar when clicking the close button (if exists)
-if (closeButton) {
-    closeButton.addEventListener('click', () => {
-        sidebar.classList.add('close'); 
-        toggleButton.classList.remove('rotate');
-    });
-}
-
-// Toggle submenu
-function toggleSubMenu(button) {
-    if (!button.nextElementSibling.classList.contains('show')) {
-        closeAllSubMenus();
-    }
-
-    button.nextElementSibling.classList.toggle('show');
-    button.classList.toggle('rotate');
-
-    if (sidebar.classList.contains('close')) {
-        sidebar.classList.remove('close');
-        toggleButton.classList.add('rotate');
-    }
-}
-
-// Close all submenus
-function closeAllSubMenus() {
-    document.querySelectorAll('.show').forEach(ul => {
-        ul.classList.remove('show');
-        ul.previousElementSibling.classList.remove('rotate');
-    });
-}
-
-// Update cart count on page load
 document.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-});
+    const searchInput = document.getElementById('productSearch');
+    const resultsContainer = document.querySelector('.autocomplete-results');
 
-document.addEventListener('click', (event) => {
-    console.log('Clicked:', event.target);
+    if (!searchInput || !resultsContainer) return; // Prevents errors if elements are missing
+
+    searchInput.addEventListener('input', async () => {
+        const searchTerm = searchInput.value.trim();
+        if (searchTerm.length < 2) {
+            resultsContainer.innerHTML = '';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/products/search-suggestions?term=${encodeURIComponent(searchTerm)}`);
+            const suggestions = await response.json();
+
+            resultsContainer.innerHTML = suggestions
+                .map(suggestion => `<div class="autocomplete-item">${suggestion}</div>`)
+                .join('');
+
+            document.querySelectorAll('.autocomplete-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    searchInput.value = item.textContent;
+                    resultsContainer.innerHTML = '';
+                });
+            });
+
+        } catch (error) {
+            console.error('Error fetching suggestions:', error);
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
+            resultsContainer.innerHTML = '';
+        }
+    });
 });
-*/

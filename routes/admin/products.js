@@ -5,6 +5,46 @@ const {ensureAuthenticated, ensureRole} = require('../../middleware/auth');
 
 const activePage = 'products';
 
+router.get("/add-product", ensureRole("admin"), async (req, res, next) => {
+  try {
+      res.render("admin/addproduct", {
+          title: "Add Product",
+          currentUser: req.user,
+      });
+  } catch (error) {
+      console.error(error);
+      next(error);
+  }
+});
+
+// POST: Handle form submission to create a new product
+router.post("/add-product", ensureRole("admin"), async (req, res, next) => {
+  try {
+      const { category, name, model, length, material, size, price, imageUrl } = req.body;
+
+      // Ensure `length` is only included for the correct categories
+      const productData = {
+          category,
+          name,
+          model,
+          price,
+          imageUrl,
+          length: (category === "snowboard" || category === "ski") ? length || null : null, 
+          material: (category === "snowboard" || category === "ski") ? material || null : null,
+          size: (category === "shoes" || category === "hats") ? size || null : null,
+      };
+
+      console.log("Product Data Before Save:", productData); 
+
+      await Product.create(productData);
+      res.redirect("/admin/products");
+  } catch (error) {
+      console.error("Error creating product:", error);
+      next(error);
+  }
+});
+
+
 // Route to get all products and display them in a table
 router.get('/', ensureRole('admin'), async function (req, res, next) {
   try {
@@ -25,72 +65,86 @@ router.get('/', ensureRole('admin'), async function (req, res, next) {
 });
 
 // GET: Render the Edit Product form
-router.get('/:id/edit', ensureRole('admin'), async function (req, res, next) {
+router.get('/edit-product/:id', ensureRole('admin'), async (req, res) => {
   try {
-    const productId = req.params.id;
+      const product = await Product.findByPk(req.params.id);
+      if (!product) {
+          return res.status(404).send('Product not found');
+      }
+      res.render('admin/editproduct', { product, categories: ['snowboard', 'ski', 'shoes', 'hats'] });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error loading product for editing');
+  }
+});
 
-    // Find the product by ID
-    const product = await Product.findByPk(productId);
+router.post('/edit-product/:id', ensureRole('admin'), async (req, res) => {
+  try {
+      const { name, model, price, length, material, size, imageUrl, category } = req.body;
+      const product = await Product.findByPk(req.params.id);
+
+      if (!product) {
+          return res.status(404).send('Product not found');
+      }
+
+      // Update fields based on category
+      product.name = name;
+      product.model = model;
+      product.price = price;
+      product.imageUrl = imageUrl;
+      product.category = category;
+
+      if (category === 'snowboard' || category === 'ski') {
+          product.length = length;
+          product.material = material;
+          product.size = null; // Reset size for non-size products
+      } else if (category === 'shoes' || category === 'hats') {
+          product.size = size;
+          product.length = null; // Reset length for non-length products
+          product.material = null; // Reset material for non-material products
+      }
+
+      await product.save();
+      res.redirect('/admin/products');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error updating product');
+  }
+});
+
+// GET: Render the delete product confirmation page
+router.get('/delete-product/:id', ensureRole('admin'), async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      return res.status(404).send('Product not found');
+    }
+    // Render the confirmation page before deletion
+    res.render('admin/deleteproduct', { product });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error loading product for deletion');
+  }
+});
+
+// POST: Handle product deletion
+router.post('/delete-product/:id', ensureRole('admin'), async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
     if (!product) {
       return res.status(404).send('Product not found');
     }
 
-    // Render the edit form and pass the product data
-    res.render('admin/editProduct', { title: 'Edit Product', product, activePage: activePage, currentUser: req.user });
+    // Delete the product from the database
+    await product.destroy();
+    res.redirect('/admin/products'); // Redirect to the product list page
   } catch (error) {
     console.error(error);
-    next(error);
+    res.status(500).send('Error deleting product');
   }
 });
 
-// POST: Handle form submission to update the product
-router.post('/:id/edit', ensureRole('admin'), async function (req, res, next) {
-  try {
-    const productId = req.params.id;
-    const { name, model, length, material, price, imageUrl } = req.body;
 
-    // Find the product by ID
-    const product = await Product.findByPk(productId);
-    if (!product) {
-      return res.status(404).send('Product not found');
-    }
 
-    // Update the product with new values
-    await product.update({ name, model, length, material, price, imageUrl });
-
-    // Redirect back to the products list
-    res.redirect('/admin/products');
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-// GET: Render the Add Product form
-router.get('/new', ensureRole('admin'), async function (req, res, next) {
-  try {
-    // Render the form for adding a new Product
-    res.render('admin/addProduct', { title: 'Add Product', activePage: activePage, currentUser: req.user });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-// POST: Handle form submission to create a new product
-router.post('/new', ensureRole('admin'), async function (req, res, next) {
-  try {
-    const { name, model, length, material, price, imageUrl } = req.body;
-
-    // Create a new product in the database
-    await Product.create({ name, model, length, material, price, imageUrl });
-
-    // Redirect back to the products list
-    res.redirect('/admin/products');
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
 
 module.exports = router;

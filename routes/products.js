@@ -5,60 +5,64 @@ const Product = require('../models/Product');
 const middleware = require('../middleware/auth');
 const UserProduct = require('../models/UserProduct');
 
-// Route to get all products, with optional filtering
-router.get('/', async function(req, res, next) {
+// Route to get all products, with optional filtering and pagination
+router.get('/', async (req, res) => {
   try {
-    const productFilter = req.query.productFilter;
-    const page = parseInt(req.query.page) || 1; // Current page number
-    const pageSize = 8; // Number of items per page
+    const category = req.query.category;
+    const productFilter = req.query.productFilter; // Extract productFilter from query params
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+    const offset = (page - 1) * limit;
 
-    let queryOptions = {
-      offset: (page - 1) * pageSize,
-      limit: pageSize
-    };
-
+    // Filter conditions
+    const whereCondition = {};
+    if (category) whereCondition.category = category;
     if (productFilter) {
-      queryOptions.where = {
-        [Op.or]: [
-          { name: { [Op.like]: `%${productFilter}%` } },
-          { model: { [Op.like]: `%${productFilter}%` } },
-          { material: { [Op.like]: `%${productFilter}%` } }
-        ]
-      };
+      whereCondition.name = { [Op.like]: `%${productFilter}%` }; // Add search logic
     }
 
-    const { rows: products, count: totalItems } = await Product.findAndCountAll(queryOptions);
-    const totalPages = Math.ceil(totalItems / pageSize);
+    const { count, rows: products } = await Product.findAndCountAll({
+      where: whereCondition,
+      limit,
+      offset
+    });
 
-    res.render('products/index', { products, currentPage: page, totalPages, productFilter });
+    const totalPages = Math.ceil(count / limit);
+
+    res.render('products/index', {
+      products,
+      category,
+      productFilter,
+      currentPage: page,
+      totalPages
+    });
   } catch (error) {
-    next(error);
+    console.error(error);
+    res.status(500).send('Server Error');
   }
 });
 
 
-router.get('/new', middleware.ensureRole("admin"), function(req, res, next) {
-  res.render('products/newProduct');
-});
-
-router.post('/new', middleware.ensureRole("admin"), async function(req, res, next) {
-  const { name, model, length, material, price, imageUrl } = req.body;
-
-  const data = {
-      name,
-      model,
-      length,
-      material,
-      price,
-      imageUrl // Add the imageUrl to the data
-  };
+router.get('/search-suggestions', async (req, res) => {
+  const { term } = req.query; // Extract search term
+  if (!term) {
+    return res.json([]);
+  }
 
   try {
-    await Product.create(data);
-    res.redirect('/products');
+    const suggestions = await Product.findAll({
+      where: {
+        name: { [Op.like]: `%${term}%` } // Partial match for autocomplete
+      },
+      attributes: ['name'], // Only return product names
+      limit: 10 // Limit results to improve performance
+    });
+
+    // Send an array of product names as JSON
+    res.json(suggestions.map(product => product.name));
   } catch (error) {
-    console.error('Error creating product:', error);
-    res.status(500).send('Възникна грешка при добавяне на продукт');
+    console.error('Error fetching search suggestions:', error);
+    res.status(500).json({ error: 'Server Error' });
   }
 });
 

@@ -201,34 +201,51 @@ p.lead {
 /* Toast container */
 #toast {
   position: fixed;
-  top: 70px; /* Top-right corner */
+  top: 80px;
   right: 20px;
-  z-index: 1055;
+  z-index: 1;
 }
 
 /* Common toast styles */
 .toast {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
   width: 400px;
   position: relative;
   overflow: hidden;
-  list-style: none;
-  border-radius: 4px;
-  padding: 16px 17px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 12px 15px; 
   margin-bottom: 10px;
   background: var(--light);
-  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   animation: show_toast 0.3s ease forwards;
 }
 
-.toast::before{
+.notifications {
+  position: fixed;
+  top: 30px;
+  right: 20px;
+  z-index: 1;
+}
+
+
+.toast::before {
   position: absolute;
   content: "";
   height: 3px;
   width: 100%;
   bottom: 0px;
   left: 0px;
-  background: red;
-  animation: progress 5s linear forwards 
+  background: var(--success); /* Green Progress Bar */
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  100% {
+      width: 0%;
+  }
 }
 
 
@@ -239,37 +256,53 @@ p.lead {
 
 /* Toast types */
 .toast.success {
-  background-color: #28a745; /* Green for success */
+  background-color: #28a745; 
 }
 
 .toast.error {
-  background-color: #dc3545; /* Red for error */
+  background-color: #dc3545; 
 }
 
 .toast.info {
-  background-color: #007bff; /* Blue for informational messages */
+  background-color: #007bff; 
+}
+
+.toast .column {
+  display: flex;
+  align-items: center; 
+  gap: 8px; 
+}
+
+.toast .column i {
+  font-size: 1.5rem;  
+    color: var(--success);
+}
+
+.toast .column span {
+  font-size: 1.07rem;
+  font-weight: 500;
 }
 
 /* Toast close button */
 .toast .close {
-  margin-left: auto;
-  font-size: 16px;
+  color: #aeb0d7;
   cursor: pointer;
   background: none;
   border: none;
-  color: #fff;
-  opacity: 0.8;
+  font-size: 18px;
 }
 
 .toast .close:hover {
-  opacity: 1;
+  color: var(--dark);
 }
 
 
 /* Pagination */
 .pagination {
-  display: inline-block;
+  display: flex;
   margin-top: 20px;
+  justify-content: center;
+  width: 100%; 
 }
 
 .pagination a {
@@ -283,15 +316,18 @@ p.lead {
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #007bff;
   color: white;
-  border: 1px solid #4CAF50;
+  border: 1px solid #007bff;
 }
 
 .pagination a:hover:not(.active) {
   background-color: #ddd;
   border-radius: 5px;
 }
+
+
+
 /* 🔥 Fix: Override Bootstrap styles for mobile */
 @media (max-width: 768px) {
     .content-wrapper .card-body .card-title2 {
@@ -332,3 +368,94 @@ p.lead {
         max-width: 100%;
     }
 }
+
+
+.card-box {
+  margin-bottom: 30px;
+}
+
+.main-content {
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+
+.filter-form {
+  margin: 30px 0px;
+}
+
+
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 30px; /* Adjust as needed */
+}
+
+.filter-btn {
+  background-color: #111; /* Very dark grey */
+  color: #fff; /* Blue text */
+  border: none;
+  padding: 7px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.filter-btn:hover {
+  background-color: #555;
+  color: #ffffff;
+}
+
+.filter-btn:focus {
+  outline: none;
+}
+
+/* productFilter.css */
+/*
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.filter-buttons {
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.filter-btn:hover {
+  background-color: #0056b3;
+}
+
+.filter-btn.active {
+  background-color: #28a745;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product {
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  width: 150px;
+  text-align: center;
+}
+*/

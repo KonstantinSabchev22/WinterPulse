@@ -1,21 +1,42 @@
-extends ../layout
+extends ../layout.pug
 
 block content
-  .content-wrapper
-    .banner-wrapper.mb-4
-      .container
-        img.banner-img(src='/images/banner-img.png' alt='Banner Image' class='img-fluid')
+  .container
+    h1 Products
 
-    h1.heading-title.text-center Вскички продукти
-    .container
-      .row
-        each product in products
-          .col-xl-3.col-lg-4.col-md-12.col-12.mb-4
-            .card.h-100.d-flex.flex-column
-              img.card-img-top(src=product.imageUrl alt='продукт изображение') 
-              .ribbon NEW
-              .card-body
-                p.h3.card-title2= product.name
-                p.card-text2= product.model.substr(0, 100)
-                p.card-text2= `Цена: ${product.price.toFixed(2)} лв`
-                a.btn.btn-primary.mt-auto(href=`/products/${product.id}`) Детайли
+    // Category Selection Buttons
+    .filter-buttons.text-center
+      button.filter-btn(type="button", onclick="window.location.href='/products?category=snowboard'") Snowboards
+      button.filter-btn(type="button", onclick="window.location.href='/products?category=ski'") Skis
+      button.filter-btn(type="button", onclick="window.location.href='/products?category=shoes'") Shoes
+      button.filter-btn(type="button", onclick="window.location.href='/products?category=hats'") Hats
+      button.filter-btn(type="button", onclick="window.location.href='/products'") All Categories
+
+    // Product List
+    .row
+      each product in products
+        .col-md-4.card-box
+          .card
+            img.card-img-top(src=product.imageUrl, alt=product.name)
+            .card-body
+              h5.card-title= product.name
+              p.card-text= product.description
+              p Price: $#{product.price}
+              a.btn.btn-primary(href=`/products/${product.id}`) View Details
+
+    // Pagination Links
+    .pagination
+      // Previous Button
+      if currentPage > 1
+        a.page-link(href=`/products?page=${currentPage - 1}${category ? `&category=${category}` : ''}`) Previous
+
+      // Page Numbers
+      each pageNum in Array(totalPages).fill(0).map((_, i) => i + 1)
+        if pageNum === currentPage
+          a.page-link.active= pageNum
+        else
+          a.page-link(href=`/products?page=${pageNum}${category ? `&category=${category}` : ''}`)= pageNum
+
+      // Next Button
+      if currentPage < totalPages
+        a.page-link(href=`/products?page=${currentPage + 1}${category ? `&category=${category}` : ''}`) Next

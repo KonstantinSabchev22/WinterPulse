@@ -1,37 +1,56 @@
-extends layout
+extends ../layout.pug
 
 block content
-  .container
-    h1 Edit Product
+    .container
+        h1 Edit Product
 
-    // Form to edit product
-    form(action=`/admin/products/${product.id}/edit` method="POST")
-      .mb-3
-        label(for="name") Name
-        input#name.form-control(type="text" name="name" required value=product.name)
+        form(method="POST", action=`/admin/products/edit-product/${product.id}`)
+            // Category Selection
+            .form-group
+                label(for="category") Select Category:
+                select#category.form-control(name="category", required, onchange="updateFormFields()")
+                    option(value="snowboard" selected=product.category==='snowboard') Snowboard
+                    option(value="ski" selected=product.category==='ski') Ski
+                    option(value="shoes" selected=product.category==='shoes') Shoes
+                    option(value="hats" selected=product.category==='hats') Hats
 
-      .mb-3
-        label(for="model") Model
-        input#model.form-control(type="text" name="model" required value=product.model)
+            // Common Fields
+            .form-group
+                label(for="name") Product Name:
+                input#name.form-control(type="text", name="name", required, value=product.name)
 
-      .mb-3
-        label(for="length") Length (cm)
-        input#length.form-control(type="number" name="length" required min="0" value=product.length)
+            .form-group
+                label(for="model") Model:
+                input#model.form-control(type="text", name="model", required, value=product.model)
 
-      .mb-3
-        label(for="material") Material
-        input#material.form-control(type="text" name="material" value=product.material)
+            .form-group
+                label(for="price") Price ($):
+                input#price.form-control(type="number", name="price", step="0.01", required, value=product.price)
 
-      .mb-3
-        label(for="price") Price ($)
-        input#price.form-control(type="number" name="price" required step="0.01" min="0" value=product.price)
+            .form-group
+                label(for="imageUrl") Image URL:
+                input#imageUrl.form-control(type="text", name="imageUrl", required, value=product.imageUrl)
 
-      .mb-3
-        label(for="imageUrl") Image URL
-        input#imageUrl.form-control(type="url" name="imageUrl" value=product.imageUrl)
+            // Fields for Snowboards & Skis
+            .form-group#lengthGroup(style=product.category==='snowboard' || product.category==='ski' ? 'display:block;' : 'display:none;')
+                label(for="length") Length (cm):
+                input#length.form-control(type="number", name="length", value=product.length || '')
 
-      // Submit Button
-      button.btn.btn-primary(type="submit") Save Changes
+            .form-group#materialGroup(style=product.category==='snowboard' || product.category==='ski' ? 'display:block;' : 'display:none;')
+                label(for="material") Material:
+                input#material.form-control(type="text", name="material", value=product.material || '')
 
-      // Cancel Button
-      a.btn.btn-secondary(href="/admin/products") Cancel
+            // Field for Shoes & Hats
+            .form-group#sizeGroup(style=product.category==='shoes' || product.category==='hats' ? 'display:block;' : 'display:none;')
+                label(for="size") Size:
+                input#size.form-control(type="text", name="size", value=product.size || '')
+
+            button.btn.btn-primary(type="submit") Update Product
+
+    script.
+        function updateFormFields() {
+            var category = document.getElementById('category').value;
+            document.getElementById('lengthGroup').style.display = (category === 'snowboard' || category === 'ski') ? 'block' : 'none';
+            document.getElementById('materialGroup').style.display = (category === 'snowboard' || category === 'ski') ? 'block' : 'none';
+            document.getElementById('sizeGroup').style.display = (category === 'shoes' || category === 'hats') ? 'block' : 'none';
+        }

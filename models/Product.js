@@ -12,7 +12,7 @@ const Product = sequelize.define('Product', {
   },
   length: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   material: {
     type: DataTypes.STRING,
@@ -26,6 +26,17 @@ const Product = sequelize.define('Product', {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  size: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+
+  category: {
+    type: DataTypes.ENUM('snowboard', 'ski', 'shoes', 'hats'),
+    allowNull: false,
+    defaultValue: 'snowboard'
+  },
+
 }, {
   tableName: 'Products', // This will create the table 'Products' in your database
 });

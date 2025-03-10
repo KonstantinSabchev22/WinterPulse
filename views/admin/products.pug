@@ -4,7 +4,8 @@ block content
   .container
     h1 Products
     .addButton-container
-      a.btn.btn-primary(href="/admin/products/new") Add Product
+      a.btn.btn-primary(href="/admin/products/add-product") Add Product
+
       
 
     // Products Table
@@ -36,8 +37,8 @@ block content
                 | N/A
             // Edit Button
             td
-              a.btn.btn-sm.btn-warning(href=`/admin/products/${product.id}/edit`) Edit
+              a.btn.btn-sm.btn-warning(href=`/admin/products/edit-product/${product.id}`) Edit
             // Delete Button
             td
-              form(action=`/admin/products/${product.id}/delete` method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');")
+              form(action=`/admin/products/delete-product/${product.id}` method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');")
                 button.btn.btn-sm.btn-danger(type="submit") Delete

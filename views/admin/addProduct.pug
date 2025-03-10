@@ -1,37 +1,57 @@
-extends layout
+extends ../layout.pug
 
 block content
-  .container
-    h1 Add Product
+    .container
+        h1 Add Product
 
-    // Form to add a new Product
-    form(action="/admin/products/new" method="POST")
-      .mb-3
-        label(for="name") Name
-        input#name.form-control(type="text" name="name" required placeholder="Enter product name")
+        form(method="POST", action="/admin/products/add-product")
+            // Category Selection
+            .form-group
+                label(for="category") Select Category:
+                select#category.form-control(name="category", required, onchange="updateFormFields()")
+                    option(value="") -- Select a Category --
+                    option(value="snowboard") Snowboard
+                    option(value="ski") Ski
+                    option(value="shoes") Shoes
+                    option(value="hats") Hats
 
-      .mb-3
-        label(for="model") Model
-        input#model.form-control(type="text" name="model" required placeholder="Enter product model")
+            // Common Fields
+            .form-group
+                label(for="name") Product Name:
+                input#name.form-control(type="text", name="name", required)
 
-      .mb-3
-        label(for="length") Length (cm)
-        input#length.form-control(type="number" name="length" required min="0" placeholder="Enter product length")
+            .form-group
+                label(for="model") Model:
+                input#model.form-control(type="text", name="model", required)
 
-      .mb-3
-        label(for="material") Material
-        input#material.form-control(type="text" name="material" placeholder="Enter snowboard material (optional)")
+            .form-group
+                label(for="price") Price ($):
+                input#price.form-control(type="number", name="price", step="0.01", required)
 
-      .mb-3
-        label(for="price") Price ($)
-        input#price.form-control(type="number" name="price" required step="0.01" min="0" placeholder="Enter product price")
+            .form-group
+                label(for="imageUrl") Image URL:
+                input#imageUrl.form-control(type="text", name="imageUrl", required)
 
-      .mb-3
-        label(for="imageUrl") Image URL
-        input#imageUrl.form-control(type="url" name="imageUrl" placeholder="Enter image URL (optional)")
+            // Fields for Snowboards & Skis
+            .form-group#lengthGroup(style="display: none;")
+                label(for="length") Length (cm):
+                input#length.form-control(type="number", name="length")
 
-      // Submit Button
-      button.btn.btn-primary(type="submit") Add Product
+            .form-group#materialGroup(style="display: none;")
+                label(for="material") Material:
+                input#material.form-control(type="text", name="material")
 
-      // Cancel Button
-      a.btn.btn-secondary(href="/admin/products") Cancel
+            // Field for Shoes & Hats
+            .form-group#sizeGroup(style="display: none;")
+                label(for="size") Size:
+                input#size.form-control(type="text", name="size")
+
+            button.btn.btn-primary(type="submit") Add Product
+
+    script.
+        function updateFormFields() {
+            var category = document.getElementById('category').value;
+            document.getElementById('lengthGroup').style.display = (category === 'snowboard' || category === 'ski') ? 'block' : 'none';
+            document.getElementById('materialGroup').style.display = (category === 'snowboard' || category === 'ski') ? 'block' : 'none';
+            document.getElementById('sizeGroup').style.display = (category === 'shoes' || category === 'hats') ? 'block' : 'none';
+        }
