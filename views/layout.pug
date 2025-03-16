@@ -26,9 +26,9 @@ html
                 a.nav-link(href='/products/favorites') Моите любими
             li.nav-item
               a.nav-link(href='/products') Всички сноуборди
-          form.d-flex(action='/products' method='GET' role='search')
+          form.d-flex(action='/products' method='GET' role='search' style='position: relative;')
             input#productSearch.form-control.me-2(name='productFilter' type='search' placeholder='продукт' aria-label='Search')
-            .autocomplete-results
+            .autocomplete-results(style='position: absolute; top: 100%; left: 0; width: 100%; background-color: #fff; border: 1px solid #ccc; z-index: 10; border-radius: 4px; display: none;')
             button.btn.btn-outline-success(type='submit') Търси
           ul.nav.navbar-nav.navbar-right
             // Cart icon with counter badge
@@ -53,9 +53,50 @@ html
     .main-content
       block content
 
+
+
+
     script(src="/bootstrap/js/bootstrap.bundle.min.js")
     script(src="/javascripts/sidebar.js")
     script.
+
+      function showToast(type, message){
+        const toastContainer = document.getElementById('toast-container') || document.createElement('div');
+
+        if (!toastContainer.id) {
+          toastContainer.id = 'toast-container';
+          toastContainer.className = 'position-fixed top-0 end-0 p-3';
+          document.body.appendChild(toastContainer);
+        }
+        const toastElement = document.createElement('div');
+
+        toastElement.className = `toast align-items-center text-bg-${type} border-0`;
+        toastElement.setAttribute('role', 'alert');
+        toastElement.innerHTML = `
+          <div class="d-flex">
+            <div class="toast-body">
+              ${message}
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+          </div>
+        `;
+
+        toastContainer.appendChild(toastElement);
+
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+
+        toastElement.addEventListener('hidden.bs.toast', () => {
+          toastElement.remove();
+        });   
+      }
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-close')) {
+          const toastElement = e.target.closest('.toast');
+          const toastInstance = bootstrap.Toast.getInstance(toastElement);
+          if (toastInstance) toastInstance.hide();
+        }
+      });
       // Function to update cart count in navbar
       function updateCartCount() {
           const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
@@ -65,3 +106,5 @@ html
 
       // Initialize cart count on page load
       document.addEventListener('DOMContentLoaded', updateCartCount);
+
+      

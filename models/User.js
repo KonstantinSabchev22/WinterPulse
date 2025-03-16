@@ -39,6 +39,13 @@ const User = sequelize.define('Users', {
   },
 }, {
   tableName: 'users',
+  indexes: [
+    {
+      unique: true,
+      fields: ['email'], // Explicitly defines the email index
+      name: 'unique_email_index' // Ensures consistency and prevents duplication
+    }
+  ],
   hooks: {
     beforeCreate: async (user) => {
       const salt = await bcrypt.genSalt(10);

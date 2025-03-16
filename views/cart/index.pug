@@ -2,70 +2,107 @@ extends ../layout
 
 block content
   .container
-    h1.text-center.mb-5 Your Cart
+    h1.text-center.mb-5 Твоята количка
 
     // Section for cart items
     #cart-items.row
-      p.text-muted.text-center No items in cart yet.
+      p.text-muted.text-center Все още нямате продукти количката
 
-    // Section for delivery address input
-    .delivery-address-container.mt-4
-      label(for="delivery-address") Delivery Address
-      input#delivery-address.form-control(type="text" placeholder="Enter your delivery address" required)
+    // Cart Total
+    #cart-total.text-end.mt-3.font-weight-bold
 
     .checkout-button-container.text-center.mt-4
-      button.btn.btn-success.btn-lg(onclick="checkout()") Checkout
+      button.btn.btn-success.btn-lg(onclick="showCheckoutModal()") Checkout
+
+  // Modal for Checkout Details
+  .modal.fade#checkoutModal(tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="false")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h5#checkoutModalLabel.modal-title Checkout Details
+          button.btn-close(data-bs-dismiss="modal" aria-label="Close")
+        .modal-body
+          form#checkoutForm
+            .mb-3
+              label(for="Име") Name
+              input#name.form-control(type="text" placeholder="Въведете вашето име" required)
+            .mb-3
+              label(for="Държава") Country
+              input#country.form-control(type="text" placeholder="Въведете вашта държава" required)
+            .mb-3
+              label(for="Адрес") Address
+              input#address.form-control(type="text" placeholder="Въведете адрес за доставка" required)
+            .mb-3
+              label(for="payment-method") Payment метод
+              select#payment-method.form-select
+                option(value="card") кредитна/дебитна карта
+                option(value="paypal") PayPal
+                option(value="cash") наложен платеж
+        .modal-footer
+          button.btn.btn-secondary(data-bs-dismiss="modal") Затвори
+          button.btn.btn-primary(onclick="checkout()") Подтвърди поръчката
 
   script.
-    // Display items from sessionStorage in the cart
-    function displayCartItems() {
-      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      const cartItemsContainer = document.getElementById('cart-items');
+    function showCheckoutModal() {
+      const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+      modal.show();
+    }
 
-      // Check if cart is empty
+    function displayCart() {
+      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      const cartContainer = document.getElementById('cart-items');
+      const cartTotalElement = document.getElementById('cart-total');
+
+      cartContainer.innerHTML = ''; // Clear previous content
+
       if (cart.length === 0) {
-        cartItemsContainer.innerHTML = "<p class='text-muted text-center w-100'>No items in cart yet.</p>";
+        cartContainer.innerHTML = '<p class="text-muted text-center">No items in cart yet.</p>';
+        cartTotalElement.innerHTML = '';
         return;
       }
 
-      // Render the cart items dynamically
-      cartItemsContainer.innerHTML = cart.map((item, index) => `
-        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-          <div class="card mb-3 shadow-sm cart-item" data-index="${index}">
-            <img src="${item.imageUrl}" class="card-img-top cart-item-img" alt="${item.productName}">
-            <div class="card-body">
-              <h5 class="card-title">${item.productName}</h5>
-              <p class="card-text">Quantity: ${item.quantity}</p>
-              <p class="card-text">Price: ${item.price} лв.</p>
-              <button class="btn btn-danger" onclick="removeFromCart(${index})">Remove</button>
+      let total = 0;
+
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+
+        const cartItem = document.createElement('div');
+        cartItem.className = 'col-12 mb-3';
+        cartItem.innerHTML = `
+          <div class="card p-3 d-flex flex-row align-items-center justify-content-between">
+            <img src="${item.imageUrl}" alt="${item.productName}" style="width: 60px; height: 60px; border-radius: 5px;">
+            <div class="ms-3">
+              <strong>${item.productName}</strong> - ${item.quantity} x ${item.price.toFixed(2)} лв
             </div>
+            <button class="btn btn-danger btn-sm" onclick="removeFromCart(${item.productId})">Remove</button>
           </div>
-        </div>
-      `).join('');
+        `;
+        cartContainer.appendChild(cartItem);
+      });
+
+      cartTotalElement.innerHTML = `Total: ${total.toFixed(2)} лв`;
     }
 
-    // Remove item from the cart
-    function removeFromCart(index) {
-      const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      
-      // Remove the item at the specified index
-      cart.splice(index, 1);
-
-      // Update sessionStorage
+    function removeFromCart(productId) {
+      let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+      cart = cart.filter(item => item.productId !== productId);
       sessionStorage.setItem('cart', JSON.stringify(cart));
-
-      // Re-render the cart items
-      displayCartItems();
+      displayCart();
+      updateCartCount(); // To refresh cart count in navbar
+      showToast('info', 'Product removed from the cart.');
     }
 
-    // Send cart data to the backend for checkout
+    document.addEventListener('DOMContentLoaded', displayCart);
+
     async function checkout() {
       const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-      const deliveryAddress = document.getElementById('delivery-address').value.trim(); // Get delivery address
+      const name = document.getElementById('name').value.trim();
+      const country = document.getElementById('country').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const paymentMethod = document.getElementById('payment-method').value; // No logic yet
 
-      // Validate input
-      if (!deliveryAddress) {
-        showToast('info', 'Delivery address is required.');
+      if (!name || !country || !address) {
+        showToast('info', 'Please fill in all required fields.');
         return;
       }
 
@@ -75,11 +112,10 @@ block content
       }
 
       try {
-        // Make a POST request to the backend with the cart data and delivery address
         const response = await fetch('/cart/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cartItems: cart, deliveryAddress })
+          body: JSON.stringify({ cartItems: cart, name, country, address, paymentMethod })
         });
 
         const result = await response.json();
@@ -93,9 +129,6 @@ block content
         }
       } catch (error) {
         console.error('Checkout error:', error);
-        showToast('error', 'Възникна грешка при обработката на поръчката.');
+        showToast('error', 'Error processing your order.');
       }
     }
-
-    // Call displayCartItems when the page loads
-    document.addEventListener('DOMContentLoaded', displayCartItems);

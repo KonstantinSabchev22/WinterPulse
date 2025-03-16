@@ -1,5 +1,95 @@
 extends layout
 
 block content
-  .main-content
-    h1 hello there
+  .container
+    .row
+      .col-md-12
+        h1 Административно табло
+
+    if error
+      .alert.alert-danger #{error}
+
+    .row
+      .col-md-4
+        .card.bg-primary.text-white
+          .card-body
+            h5 Общ брой потребители
+            p #{stats.totalUsers || 0}
+
+      .col-md-4
+        .card.bg-success.text-white
+          .card-body
+            h5 Общ брой продукти
+            p #{stats.totalProducts || 0}
+
+      .col-md-4
+        .card.bg-warning.text-white
+          .card-body
+            h5 Общ брой поръчки
+            p #{stats.totalOrders || 0}
+
+    .row.mt-4
+      .col-md-6
+        .card
+          .card-body
+            h5 Поръчки по месеци
+            canvas#ordersChart(width='400' height='300')
+
+      .col-md-6
+        .card
+          .card-body
+            h5 Доставени срещу чакащи поръчки
+            canvas#deliveryChart(width='400' height='300')
+
+    .row.mt-4
+      .col-md-12
+        h2 Последни поръчки
+        if recentOrders && recentOrders.length
+          table.table.table-striped
+            thead
+              tr
+                th Номер на поръчка
+                th Потребител
+                th Статус
+            tbody
+              each order in recentOrders
+                tr
+                  td #{order.id}
+                  td #{order.user ? order.user.firstName + ' ' + order.user.lastName : 'Неизвестен'}
+                  td #{order.status}
+        else
+          p.text-muted Няма налични последни поръчки.
+
+  block scripts
+    script(src='https://cdn.jsdelivr.net/npm/chart.js')
+    script.
+      document.addEventListener('DOMContentLoaded', function () {
+        // Orders by Month Chart
+        const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+        new Chart(ordersCtx, {
+          type: 'bar',
+          data: {
+            labels: !{JSON.stringify(ordersByMonth.map(item => `Месец ${item.month}`))},
+            datasets: [{
+              label: 'Поръчки',
+              data: !{JSON.stringify(ordersByMonth.map(item => item.orderCount))},
+              backgroundColor: '#4CAF50'
+            }]
+          }
+        });
+
+        // Delivered vs. Pending Chart
+        const deliveryCtx = document.getElementById('deliveryChart').getContext('2d');
+        new Chart(deliveryCtx, {
+          type: 'pie',
+          data: {
+            labels: ['Доставени', 'Чакащи'],
+            datasets: [{
+              data: [#{stats.deliveredOrders || 0}, #{stats.totalOrders - stats.deliveredOrders || 0}],
+              backgroundColor: ['#2196F3', '#FFC107']
+            }]
+          }
+        });
+
+        console.log('Административното табло е заредено успешно!');
+      });

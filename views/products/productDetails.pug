@@ -28,7 +28,7 @@ block content
                                     a.btn.btn-warning.btn-product-detail(href='/products/' + product.id + '/edit') Промени
                             a.btn.btn-secondary.btn-product-detail(href='/products') Назад
                             // Add to Cart Button
-                            button.btn.btn-success.btn-product-detail(onclick=`addToCart(${product.id}, "${product.model}", ${product.price}, "${product.imageUrl}")`) Добави в количка
+                            button.btn.btn-success.btn-product-detail(onclick=`addToCart(${product.id}, "${product.model}", ${product.price}, "${product.imageUrl || ''}")`) Добави в количка
 
     // Toast Container
     #toast
@@ -69,15 +69,23 @@ block content
         function addToCart(productId, productName, price, imageUrl) {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             const existingProduct = cart.find(item => item.productId === productId);
+
             if (existingProduct) {
-                existingProduct.quantity += 1;
+            existingProduct.quantity += 1;
             } else {
-                cart.push({ productId, productName, price, imageUrl, quantity: 1 });
+                cart.push({ 
+                productId, 
+                productName, 
+                price, 
+                imageUrl: imageUrl || '/images/default-product.png', // Fallback image
+                quantity: 1 
+                });
             }
+
             sessionStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
             showToast('success', `${productName} е добавен в количката.`);
-        }
+        }       
 
         function updateCartCount() {
             const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
