@@ -1,96 +1,52 @@
-/* LoginForm.css */
-.login.section-area {
+.form-wrapper {
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('/images/background.jpg'); /* Background image for login */
+  background: url('/images/background.jpg') no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
-  position: relative;
 }
 
-.login.section-area::after{
-  content: "";
-  position: absolute;
+.form-container {
   width: 100%;
-  height: 100vh;
-  left: 0;
-  top: 0;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 }
 
-
-.loginbox {
-  width: 450px;
-  height: 500px;
-  margin-top: 70px;
-  padding: 70px 30px;
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-  position: relative;
-  z-index: 1;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-}
-
-.loginbox .logo {
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  top: -50px;
-  left: calc(50% - 50px);
-  border-radius: 50%;
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-}
-
-.loginbox h2 {
-  font-size: 30px;
-  text-align: center;
-  margin-top: 30px;
-}
-
-.loginbox form {
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.loginbox form label {
+.logo {
   display: block;
+  margin: 0 auto 15px;
+  max-width: 100px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: bold;
   margin-bottom: 5px;
-  font-size: 18px;
 }
 
-.loginbox form input {
-  width: 100%;
-  height: 40px;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background: transparent;
-  outline: none;
-  font-size: 16px;
-  padding: 5px 0;
+@media (min-width: 768px) {
+  .form-container {
+      max-width: 50%;
+  }
 }
 
-.loginbox form input[type="submit"] {
-  margin-top: 20px;
-  height: 40px;
-  background: dodgerblue;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
+@media (min-width: 992px) {
+  .form-container {
+      max-width: 33.33%;
+  }
 }
 
-.loginbox form input[type="submit"]:hover {
-  box-shadow: 4px 4px 20px rgba(3, 3, 3, 0.42);
-}
-
-.link {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.link a {
-  color: dodgerblue;
-  font-size: 14px;
+.btn-block{
+  margin-top: 15px;
 }

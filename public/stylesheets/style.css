@@ -1,6 +1,21 @@
 /* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex-grow: 1;
+  min-height: 0; /* Prevents forcing extra height */
+  display: flex;
+  flex-direction: column;
+}
+
 .content-wrapper {
   margin-top: 80px;
 }
@@ -374,11 +389,6 @@ p.lead {
   margin-bottom: 30px;
 }
 
-.main-content {
-  margin-top: 40px;
-  margin-bottom: 50px;
-}
-
 .filter-form {
   margin: 30px 0px;
 }
@@ -412,50 +422,17 @@ p.lead {
   outline: none;
 }
 
-/* productFilter.css */
-/*
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 20px;
-}
 
-.filter-buttons {
-  margin-bottom: 20px;
+.background {
+  background-image: url('/images/background-img.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  z-index: -1; /* Keeps it behind the content */
+  opacity: 0.7; /* Optional: Makes content more readable */
 }
-
-.filter-btn {
-  padding: 10px 20px;
-  margin: 5px;
-  border: none;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
-
-.filter-btn:hover {
-  background-color: #0056b3;
-}
-
-.filter-btn.active {
-  background-color: #28a745;
-}
-
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.product {
-  padding: 15px;
-  margin: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f8f9fa;
-  width: 150px;
-  text-align: center;
-}
-*/

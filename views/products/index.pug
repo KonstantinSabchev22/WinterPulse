@@ -1,8 +1,25 @@
 extends ../layout.pug
 
 block content
+  .background
   .container
     h1 Products
+
+    // Bootstrap Carousel
+    #carouselExampleFade.carousel.slide.carousel-fade(data-bs-ride="carousel")
+      .carousel-inner
+        .carousel-item.active
+          img.d-block.w-100(src="/images/carousel1.jpg" alt="Image 1")
+        .carousel-item
+          img.d-block.w-100(src="/images/carousel2.jpg" alt="Image 2")
+        .carousel-item
+          img.d-block.w-100(src="/images/carousel3.jpg" alt="Image 3")
+      button.carousel-control-prev(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev")
+        span.carousel-control-prev-icon(aria-hidden="true")
+        span.visually-hidden Previous
+      button.carousel-control-next(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next")
+        span.carousel-control-next-icon(aria-hidden="true")
+        span.visually-hidden Next
 
     // Category Selection Buttons
     .filter-buttons.text-center
@@ -26,17 +43,14 @@ block content
 
     // Pagination Links
     .pagination
-      // Previous Button
       if currentPage > 1
         a.page-link(href=`/products?page=${currentPage - 1}${category ? `&category=${category}` : ''}`) Previous
 
-      // Page Numbers
       each pageNum in Array(totalPages).fill(0).map((_, i) => i + 1)
         if pageNum === currentPage
           a.page-link.active= pageNum
         else
           a.page-link(href=`/products?page=${pageNum}${category ? `&category=${category}` : ''}`)= pageNum
 
-      // Next Button
       if currentPage < totalPages
         a.page-link(href=`/products?page=${currentPage + 1}${category ? `&category=${category}` : ''}`) Next
