@@ -6,6 +6,7 @@ html, body {
   margin: 0;
   padding: 0;
   display: flex;
+  position: relative;
   flex-direction: column;
 }
 
@@ -33,6 +34,9 @@ h1 {
   font-family: 'Arial', sans-serif;
   font-weight: bold;
   color: #333;
+  display: flex;
+  position: relative;
+  justify-content: center;
 }
 
 .cart-item {
@@ -371,8 +375,12 @@ p.lead {
         font-size: 2.6rem !important;
     }
 
-    a {
+    a, button, input, label {
       font-size: 2.6rem !important;
+    }
+
+    .form-container, .form-wrapper {
+      width: 100% !important;
     }
 }
 
@@ -403,7 +411,7 @@ p.lead {
 }
 
 .filter-btn {
-  background-color: #111; /* Very dark grey */
+  background-color: #224660; /* Very dark grey */
   color: #fff; /* Blue text */
   border: none;
   padding: 7px 20px;
@@ -428,11 +436,22 @@ p.lead {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh; /* Full viewport height */
-  z-index: -1; /* Keeps it behind the content */
-  opacity: 0.7; /* Optional: Makes content more readable */
+  height: 100%;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+
+
+.carousel-img {
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: solid 2px #aaa;
+  margin-bottom: 100px;
+  margin-top: 50px;
 }

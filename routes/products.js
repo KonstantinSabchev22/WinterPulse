@@ -72,7 +72,7 @@ router.get('/:id/edit', middleware.ensureRole("admin"), async function(req, res,
     const productId = req.params.id;
     const product = await Product.findByPk(productId);
     if (!product) {
-      return res.status(404).send('Product is not found!');
+      return res.status(404).send('Продуктът не е намерен!');
     }
     res.render('products/editProduct', { product: product });
   } catch (error) {
@@ -88,7 +88,7 @@ router.post('/:id/edit', middleware.ensureRole("admin"), async function(req, res
 
       const product = await Product.findByPk(productId);
       if (!product) {
-          return res.status(404).send('Product not found!');
+          return res.status(404).send('Продуктът не е намерен!');
       }
 
       await product.update({
@@ -180,7 +180,7 @@ router.get('/:id', async function (req, res, next) {
     const productId = req.params.id;
     const product = await Product.findByPk(productId);
     if (!product) {
-      return res.status(404).send('Product not found');
+      return res.status(404).send('Продуктът не е намерен!');
     }
     let isFavorite = false;
     console.log(req.user);

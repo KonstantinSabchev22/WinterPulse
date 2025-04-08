@@ -3,43 +3,49 @@ extends ../layout.pug
 block content
   .background
   .container
-    h1 Products
 
     // Bootstrap Carousel
-    #carouselExampleFade.carousel.slide.carousel-fade(data-bs-ride="carousel")
-      .carousel-inner
-        .carousel-item.active
-          img.d-block.w-100(src="/images/carousel1.jpg" alt="Image 1")
-        .carousel-item
-          img.d-block.w-100(src="/images/carousel2.jpg" alt="Image 2")
-        .carousel-item
-          img.d-block.w-100(src="/images/carousel3.jpg" alt="Image 3")
-      button.carousel-control-prev(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev")
-        span.carousel-control-prev-icon(aria-hidden="true")
-        span.visually-hidden Previous
-      button.carousel-control-next(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next")
-        span.carousel-control-next-icon(aria-hidden="true")
-        span.visually-hidden Next
+    .carousel-container.text-center
+      #carouselExampleFade.carousel.slide.carousel-fade(data-bs-ride="carousel")
+        .carousel-inner
+          .carousel-item.active
+            img.d-block.w-100.carousel-img(src="/images/snowboarder.jpg" alt="Image 1")
+          .carousel-item
+            img.d-block.w-100.carousel-img(src="/images/3.jpg" alt="Image 2")
+          .carousel-item
+            img.d-block.w-100.carousel-img(src="/images/4.jpg" alt="Image 3")
+        button.carousel-control-prev(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev")
+          span.carousel-control-prev-icon(aria-hidden="true")
+          span.visually-hidden Назад
+        button.carousel-control-next(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next")
+          span.carousel-control-next-icon(aria-hidden="true")
+          span.visually-hidden Напред
 
     // Category Selection Buttons
     .filter-buttons.text-center
-      button.filter-btn(type="button", onclick="window.location.href='/products?category=snowboard'") Snowboards
-      button.filter-btn(type="button", onclick="window.location.href='/products?category=ski'") Skis
-      button.filter-btn(type="button", onclick="window.location.href='/products?category=shoes'") Shoes
-      button.filter-btn(type="button", onclick="window.location.href='/products?category=hats'") Hats
-      button.filter-btn(type="button", onclick="window.location.href='/products'") All Categories
+      .row.justify-content-center
+        .col-6.col-md-auto.mb-4
+          button.filter-btn(type="button", onclick="window.location.href='/products?category=snowboard'") Сноуборди
+
+          button.filter-btn(type="button", onclick="window.location.href='/products?category=ski'") Ски
+        .col-6.col-md-auto.mb-4
+          button.filter-btn(type="button", onclick="window.location.href='/products?category=shoes'") Обувки
+        .col-6.col-md-auto.mb-4
+          button.filter-btn(type="button", onclick="window.location.href='/products?category=hats'") Каски
+        .col-12.col-md-auto.mb-4
+          button.filter-btn(type="button", onclick="window.location.href='/products'") Всички
 
     // Product List
     .row
       each product in products
-        .col-md-4.card-box
+        .col-lg-4.col-md-12.col-sm-12.card-box
           .card
             img.card-img-top(src=product.imageUrl, alt=product.name)
             .card-body
               h5.card-title= product.name
               p.card-text= product.description
               p Price: $#{product.price}
-              a.btn.btn-primary(href=`/products/${product.id}`) View Details
+              a.btn.btn-primary(href=`/products/${product.id}`) Детайли
 
     // Pagination Links
     .pagination

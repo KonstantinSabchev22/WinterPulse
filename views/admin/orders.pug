@@ -2,37 +2,37 @@ extends layout
 
 block content
   .container
-    h1.text-center.text-primary Orders Management
+    h1.text-center.text-primary Управление на поръчките
 
     //- Filters
     form(method="GET", action="/admin/orders", class="mb-4")
       .row.g-3
         .col-md-3
-          label.form-label(for="status") Status
+          label.form-label(for="status") Статус
           select.form-select(name="status" id="status")
-            option(value="" selected) All
-            option(value="Pending") Pending
-            option(value="Completed") Completed
-            option(value="Cancelled") Cancelled
+            option(value="" selected) Всички
+            option(value="Pending") Чакаща
+            option(value="Completed") Завършена
+            option(value="Cancelled") Отменена
         .col-md-3
-          label.form-label(for="startDate") Start Date
+          label.form-label(for="startDate") Начална дата
           input.form-control(type="date" name="startDate" id="startDate" value=(filters.startDate || ''))
         .col-md-3
-          label.form-label(for="endDate") End Date
+          label.form-label(for="endDate") Крайна дата
           input.form-control(type="date" name="endDate" id="endDate" value=(filters.endDate || ''))
         .col-md-3.d-flex.align-items-end
-          button.btn.btn-primary(type="submit") Filter
+          button.btn.btn-primary(type="submit") Филтър
 
     //- Orders Table
     table.table.table-dark.table-striped.mt-3
       thead
         tr
-          th ID
-          th User
-          th Created At
-          th Status
-          th Delivery Address
-          th Actions
+          th # ID
+          th Потребител
+          th Поръчан на
+          th Статус
+          th адрес за доставка
+          th дейност
       tbody
         each order in orders
           tr
