@@ -2,66 +2,66 @@ extends layout
 
 block content
   .container
-    h1.text-center.text-primary Order Details
+    h1.text-center.text-primary Детайли за поръчката
 
     //- Order Information
     .card.mb-4
       .card-body
-        h5.card-title Order Information
+        h5.card-title Информация за поръчката
         p
-          strong Order ID: 
+          strong ID: 
           | #{order.id}
         p
-          strong User: 
+          strong Потребител: 
           | #{order.user ? `${order.user.firstName} ${order.user.lastName}` : 'N/A'}
         p
-          strong Status: 
+          strong Статус: 
           span.badge(
             class=(order.status === 'Pending' ? 'bg-warning' : order.status === 'Completed' ? 'bg-success' : 'bg-danger')
           ) #{order.status}
         p
-          strong Delivery Address: 
+          strong Адрес за доставка: 
           | #{order.deliveryAddress || 'N/A'}
         p
-          strong Created At: 
+          strong Направен на: 
           | #{order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A'}
         p
-          strong Updated At: 
+          strong Обновен на: 
           | #{order.updatedAt ? new Date(order.updatedAt).toLocaleDateString() : 'N/A'}
 
     //- Order Items Table
     table.table.table-bordered.mt-4
       thead
         tr
-          th Snowboard
-          th Model
-          th Quantity
-          th Price
+          th Сноуборд
+          th Модел
+          th Количество
+          th Цена
       tbody
         each item in order.items
           tr
             td #{item.product ? item.product.name : 'N/A'}
             td #{item.product ? item.product.model : 'N/A'}
             td #{item.quantity}
-            td $#{item.price.toFixed(2)}
+            td #{item.price.toFixed(2)} лв.
 
     //- Action Buttons
     .mt-4
       button.btn.btn-primary.btn-order-status-change(
         onclick=`updateOrderStatus(${order.id}, 'Pending')` 
         disabled=(order.status === 'Pending')
-      ) Mark as Pending
+      ) Маркирай като изчакваща
       button.btn.btn-success.btn-order-status-change(
         onclick=`updateOrderStatus(${order.id}, 'Completed')` 
         disabled=(order.status === 'Completed')
-      ) Mark as Completed
+      ) маркирай като завършена
       button.btn.btn-danger.btn-order-status-change(
         onclick=`updateOrderStatus(${order.id}, 'Cancelled')` 
         disabled=(order.status === 'Cancelled')
-      ) Cancel Order
+      ) Отмени поръчката
 
     //- Back Button
-    a.btn.btn-secondary.mt-3(href="/admin/orders") Back to Orders
+    a.btn.btn-secondary.mt-3(href="/admin/orders") Назад към поръчките
 
   script.
     async function updateOrderStatus(orderId, status) {

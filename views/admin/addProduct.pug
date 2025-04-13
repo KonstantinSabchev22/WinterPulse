@@ -2,51 +2,51 @@ extends ../layout.pug
 
 block content
     .container
-        h1 Add Product
+        h1 Добави продукт
 
         form(method="POST", action="/admin/products/add-product")
             // Category Selection
             .form-group
-                label(for="category") Select Category:
+                label(for="category") Избери категория:
                 select#category.form-control(name="category", required, onchange="updateFormFields()")
-                    option(value="") -- Select a Category --
-                    option(value="snowboard") Snowboard
-                    option(value="ski") Ski
-                    option(value="shoes") Shoes
-                    option(value="hats") Hats
+                    option(value="") -- Категории продукти --
+                    option(value="snowboard") Сноуборд
+                    option(value="ski") Ски
+                    option(value="shoes") Обувки
+                    option(value="hats") Каски
 
             // Common Fields
             .form-group
-                label(for="name") Product Name:
+                label(for="name") Име на продукта:
                 input#name.form-control(type="text", name="name", required)
 
             .form-group
-                label(for="model") Model:
+                label(for="model") Модел:
                 input#model.form-control(type="text", name="model", required)
 
             .form-group
-                label(for="price") Price ($):
+                label(for="price") Цена (лв.):
                 input#price.form-control(type="number", name="price", step="0.01", required)
 
             .form-group
-                label(for="imageUrl") Image URL:
+                label(for="imageUrl") Снимка на продукта:
                 input#imageUrl.form-control(type="text", name="imageUrl", required)
 
             // Fields for Snowboards & Skis
             .form-group#lengthGroup(style="display: none;")
-                label(for="length") Length (cm):
+                label(for="length") Дължина (cm):
                 input#length.form-control(type="number", name="length")
 
             .form-group#materialGroup(style="display: none;")
-                label(for="material") Material:
+                label(for="material") Материал:
                 input#material.form-control(type="text", name="material")
 
             // Field for Shoes & Hats
             .form-group#sizeGroup(style="display: none;")
-                label(for="size") Size:
+                label(for="size") Размер:
                 input#size.form-control(type="text", name="size")
 
-            button.btn.btn-primary(type="submit") Add Product
+            button.btn.btn-primary(type="submit") Добави продукта
 
     script.
         function updateFormFields() {

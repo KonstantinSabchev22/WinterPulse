@@ -12,28 +12,28 @@ block content
     #cart-total.text-end.mt-3.font-weight-bold
 
     .checkout-button-container.text-center.mt-4
-      button.btn.btn-success.btn-lg(onclick="showCheckoutModal()") Checkout
+      button.btn.btn-success.btn-lg(onclick="showCheckoutModal()") Поръчай
 
   // Modal for Checkout Details
   .modal.fade#checkoutModal(tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="false")
     .modal-dialog
       .modal-content
         .modal-header
-          h5#checkoutModalLabel.modal-title Checkout Details
+          h5#checkoutModalLabel.modal-title Детайли за поръчката
           button.btn-close(data-bs-dismiss="modal" aria-label="Close")
         .modal-body
           form#checkoutForm
             .mb-3
-              label(for="Име") Name
+              label(for="Име") Име
               input#name.form-control(type="text" placeholder="Въведете вашето име" required)
             .mb-3
-              label(for="Държава") Country
+              label(for="Държава") Държава
               input#country.form-control(type="text" placeholder="Въведете вашта държава" required)
             .mb-3
-              label(for="Адрес") Address
+              label(for="Адрес") Адрес
               input#address.form-control(type="text" placeholder="Въведете адрес за доставка" required)
             .mb-3
-              label(for="payment-method") Payment метод
+              label(for="payment-method") Метод на плащане
               select#payment-method.form-select
                 option(value="card") кредитна/дебитна карта
                 option(value="paypal") PayPal
@@ -43,7 +43,15 @@ block content
           button.btn.btn-primary(onclick="checkout()") Подтвърди поръчката
 
   script.
+    const currentUser = #{!!user}; // will be false if user is undefined
+
     function showCheckoutModal() {
+      if (!currentUser) {
+        // Redirect to login or show toast
+        window.location.href = '/login';
+        return;
+      }
+
       const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
       modal.show();
     }
@@ -56,7 +64,7 @@ block content
       cartContainer.innerHTML = ''; // Clear previous content
 
       if (cart.length === 0) {
-        cartContainer.innerHTML = '<p class="text-muted text-center">No items in cart yet.</p>';
+        cartContainer.innerHTML = '<p class="text-muted text-center">Количката ти е празна.</p>';
         cartTotalElement.innerHTML = '';
         return;
       }
@@ -99,7 +107,7 @@ block content
       const name = document.getElementById('name').value.trim();
       const country = document.getElementById('country').value.trim();
       const address = document.getElementById('address').value.trim();
-      const paymentMethod = document.getElementById('payment-method').value; // No logic yet
+      const paymentMethod = document.getElementById('payment-method').value;
 
       if (!name || !country || !address) {
         showToast('info', 'Please fill in all required fields.');

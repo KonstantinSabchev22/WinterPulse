@@ -2,50 +2,50 @@ extends ../layout.pug
 
 block content
     .container
-        h1 Edit Product
+        h1 Редактиране на продукт
 
         form(method="POST", action=`/admin/products/edit-product/${product.id}`)
             // Category Selection
             .form-group
-                label(for="category") Select Category:
+                label(for="category") Избери категория:
                 select#category.form-control(name="category", required, onchange="updateFormFields()")
-                    option(value="snowboard" selected=product.category==='snowboard') Snowboard
-                    option(value="ski" selected=product.category==='ski') Ski
-                    option(value="shoes" selected=product.category==='shoes') Shoes
-                    option(value="hats" selected=product.category==='hats') Hats
+                    option(value="snowboard" selected=product.category==='snowboard') Сноуборд
+                    option(value="ski" selected=product.category==='ski') Ски
+                    option(value="shoes" selected=product.category==='shoes') Обувки
+                    option(value="hats" selected=product.category==='hats') Каски
 
             // Common Fields
             .form-group
-                label(for="name") Product Name:
+                label(for="name") Име на продукта:
                 input#name.form-control(type="text", name="name", required, value=product.name)
 
             .form-group
-                label(for="model") Model:
+                label(for="model") Модел:
                 input#model.form-control(type="text", name="model", required, value=product.model)
 
             .form-group
-                label(for="price") Price ($):
+                label(for="price") Цена (лв.):
                 input#price.form-control(type="number", name="price", step="0.01", required, value=product.price)
 
             .form-group
-                label(for="imageUrl") Image URL:
+                label(for="imageUrl") Снимка на продукта:
                 input#imageUrl.form-control(type="text", name="imageUrl", required, value=product.imageUrl)
 
             // Fields for Snowboards & Skis
             .form-group#lengthGroup(style=product.category==='snowboard' || product.category==='ski' ? 'display:block;' : 'display:none;')
-                label(for="length") Length (cm):
+                label(for="length") Дължина (cm):
                 input#length.form-control(type="number", name="length", value=product.length || '')
 
             .form-group#materialGroup(style=product.category==='snowboard' || product.category==='ski' ? 'display:block;' : 'display:none;')
-                label(for="material") Material:
+                label(for="material") Материал:
                 input#material.form-control(type="text", name="material", value=product.material || '')
 
             // Field for Shoes & Hats
             .form-group#sizeGroup(style=product.category==='shoes' || product.category==='hats' ? 'display:block;' : 'display:none;')
-                label(for="size") Size:
+                label(for="size") Размер:
                 input#size.form-control(type="text", name="size", value=product.size || '')
 
-            button.btn.btn-primary(type="submit") Update Product
+            button.btn.btn-primary(type="submit") Обнови продукта
 
     script.
         function updateFormFields() {

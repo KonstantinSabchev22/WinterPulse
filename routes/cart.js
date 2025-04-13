@@ -6,8 +6,9 @@ const Product = require('../models/Product');
 const { ensureAuthenticated } = require('../middleware/auth');
 const { sendOrderConfirmationEmail } = require('../utils/emailUtils');
 
-router.get('/', (req, res) => {
-    res.render('cart/index');
+router.get('/', ensureAuthenticated, (req, res) => {
+    const user = req.user;
+    res.render('cart/index', { user });
 });
 
 router.post('/checkout', ensureAuthenticated, async (req, res) => {
@@ -62,6 +63,8 @@ router.post('/checkout', ensureAuthenticated, async (req, res) => {
                 price: item.price
             }))
         };
+
+        console.log(orderDetails);
 
         // Send confirmation email
         await sendOrderConfirmationEmail(req.user.email, req.user.firstName, orderDetails);

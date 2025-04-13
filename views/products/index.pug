@@ -11,7 +11,7 @@ block content
           .carousel-item.active
             img.d-block.w-100.carousel-img(src="/images/snowboarder.jpg" alt="Image 1")
           .carousel-item
-            img.d-block.w-100.carousel-img(src="/images/3.jpg" alt="Image 2")
+            img.d-block.w-100.carousel-img(src="/images/carousel-img3.jpg" alt="Image 2")
           .carousel-item
             img.d-block.w-100.carousel-img(src="/images/4.jpg" alt="Image 3")
         button.carousel-control-prev(type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev")
@@ -26,7 +26,7 @@ block content
       .row.justify-content-center
         .col-6.col-md-auto.mb-4
           button.filter-btn(type="button", onclick="window.location.href='/products?category=snowboard'") Сноуборди
-
+        .col-6.col-md-auto.mb-4
           button.filter-btn(type="button", onclick="window.location.href='/products?category=ski'") Ски
         .col-6.col-md-auto.mb-4
           button.filter-btn(type="button", onclick="window.location.href='/products?category=shoes'") Обувки
@@ -44,13 +44,13 @@ block content
             .card-body
               h5.card-title= product.name
               p.card-text= product.description
-              p Price: $#{product.price}
+              p Цена: #{product.price}лв.
               a.btn.btn-primary(href=`/products/${product.id}`) Детайли
 
     // Pagination Links
     .pagination
       if currentPage > 1
-        a.page-link(href=`/products?page=${currentPage - 1}${category ? `&category=${category}` : ''}`) Previous
+        a.page-link(href=`/products?page=${currentPage - 1}${category ? `&category=${category}` : ''}`) Назад
 
       each pageNum in Array(totalPages).fill(0).map((_, i) => i + 1)
         if pageNum === currentPage
@@ -59,4 +59,4 @@ block content
           a.page-link(href=`/products?page=${pageNum}${category ? `&category=${category}` : ''}`)= pageNum
 
       if currentPage < totalPages
-        a.page-link(href=`/products?page=${currentPage + 1}${category ? `&category=${category}` : ''}`) Next
+        a.page-link(href=`/products?page=${currentPage + 1}${category ? `&category=${category}` : ''}`) Напред

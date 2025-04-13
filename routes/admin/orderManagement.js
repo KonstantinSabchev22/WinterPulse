@@ -70,7 +70,7 @@ router.patch('/:id', ensureRole('admin'), async function (req, res, next) {
 
   try {
     // Ensure valid status is provided
-    if (!['Pending', 'Completed', 'Cancelled'].includes(status)) {
+    if (!['Чакаща', 'Completed', 'Cancelled'].includes(status)) {
       return res.status(400).json({ error: 'Invalid status' });
     }
 
